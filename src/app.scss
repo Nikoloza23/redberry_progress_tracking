@@ -1,0 +1,16 @@
+@use "./sass/index.scss" as *;
+
+body {
+  width: 1920px;
+  height: 1080px;
+  margin: 0;
+  padding: $padding;
+}
+
+// Responsive styles for smaller screens
+@media (max-width: $content-width) {
+  body {
+    width: 100%;
+    height: auto;
+  }
+}

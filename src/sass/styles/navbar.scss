@@ -1,0 +1,45 @@
+@use "../index.scss" as *;
+
+.navbar {
+  @include flex(center, space-between);
+  padding: 20px 50px;
+  .logo {
+    font-size: 31px;
+    font-weight: $bl;
+    color: $color;
+    font-family: "Fredoka One";
+  }
+  .buttons {
+    display: flex;
+    gap: 25px;
+    font-family: $font;
+    font-weight: 400;
+  }
+  .action-button1 {
+    padding: 10px 20px;
+    width: 225px;
+    height: 39px;
+    color: $drkcolor;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: $point;
+    font-size: 16px;
+    background-color: #ffffff;
+  }
+
+  .action-button {
+    width: 268px;
+    height: 38px;
+    background-color: $bg-color;
+    border: $no;
+    color: white;
+    border-radius: 5px;
+    cursor: $point;
+    font-size: 16px;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #9c27b0;
+    }
+  }
+}
