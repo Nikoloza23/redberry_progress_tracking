@@ -1,0 +1,32 @@
+@use "../index.scss" as *;
+
+.tasks_container {
+  margin-left: 50px;
+  .filter_components {
+    width: 550px;
+    height: 44px;
+    @include flex("", "");
+    gap: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    button {
+      padding: 10px 20px;
+      background: $no;
+      border: $no;
+      font-family: $font;
+      font-weight: $weight;
+      font-size: $mn-font;
+      cursor: $point;
+    }
+    img {
+      padding-left: 10px;
+    }
+  }
+}
+
+h3 {
+  font-size: 34px;
+  font-weight: 600;
+  font: $font;
+  margin-left: 50px;
+}

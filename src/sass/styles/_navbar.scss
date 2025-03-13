@@ -3,6 +3,7 @@
 .navbar {
   @include flex(center, space-between);
   padding: 20px 50px;
+  margin-bottom: 70px;
   .logo {
     font-size: 31px;
     font-weight: $bl;
@@ -13,7 +14,7 @@
     display: flex;
     gap: 25px;
     font-family: $font;
-    font-weight: 400;
+    font-weight: $weight;
   }
   .action-button1 {
     padding: 10px 20px;
@@ -23,7 +24,7 @@
     border: 1px solid;
     border-radius: 5px;
     cursor: $point;
-    font-size: 16px;
+    font-size: $mn-font;
     background-color: #ffffff;
   }
 
@@ -35,7 +36,7 @@
     color: white;
     border-radius: 5px;
     cursor: $point;
-    font-size: 16px;
+    font-size: $mn-font;
     transition: 0.3s;
 
     &:hover {
