@@ -13,22 +13,41 @@
   border-radius: 12px;
   padding: 20px 15px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
-  flex-direction: column;
-  @include flex(relative, space-between);
+  &.starter {
+    border: 5px solid #f7bc30;
+    border-radius: 13px;
+  }
+
+  &.in-progress {
+    border: 5px solid #ff7a00;
+    border-radius: 13px;
+  }
+
+  &.ready {
+    border: 5px solid #ff005c;
+    border-radius: 13px;
+  }
+
+  &.finished {
+    border: 5px solid #007bff;
+    border-radius: 13px;
+  }
+
   .task_header {
     @include flex(center, space-between);
     font-size: 14px;
     font-weight: $bl;
     margin-bottom: 16px;
+    font-family: $font;
   }
   .task_name {
-    font-size: 25px;
+    font-size: 40px;
     font-weight: $bl;
     margin-bottom: 10px;
   }
 
   .task_description {
-    font-size: 14px;
+    font-size: 25px;
     color: #444;
     text-align: justify;
     margin-bottom: 15px;

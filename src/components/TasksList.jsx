@@ -52,14 +52,14 @@ function TasksList() {
 
     const getStatusClass = (status) => {
         switch (status) {
-            case "დასრულებული":
-                return "done";
-            case "პროცესში":
+            case "დასაწყები":
+                return "starter";
+            case "პროგრესში":
                 return "in-progress";
-            case "ახალი დავალება":
-                return "new";
-            case "გაუქმებული":
-                return "canceled";
+            case "მზად ტესტირებისთვის":
+                return "ready";
+            case "დასრულებული":
+                return "finished";
             default:
                 return "";
         }
@@ -70,7 +70,7 @@ function TasksList() {
     if (error) return <PacmanLoader />
 
     const sortedTasks = [...tasks].sort((a, b) => {
-        const order = ["დასრულებული", "პროცესში", "ახალი დავალება", "გაუქმებული"];
+        const order = ["დასაწყები", "პროგრესში", "მზად ტესტირებისთვის", "დასრულებული"];
         return order.indexOf(a.status.name) - order.indexOf(b.status.name);
     });
 

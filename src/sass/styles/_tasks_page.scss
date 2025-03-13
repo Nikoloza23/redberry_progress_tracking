@@ -2,16 +2,15 @@
 
 //Task Main Container
 .tasks_container {
-  position: $abs;
-  left: 50px;
+  margin: 20px 50px;
   h3 {
     font-size: 34px;
     font-weight: 600;
     font: $font;
   }
   .filter_components {
-    width: 650px;
-    height: 44px;
+    width: 750px;
+    height: 54px;
     gap: $size;
     border: 1px solid #dee2e6;
     border-radius: $size;
@@ -21,7 +20,7 @@
       border: $no;
       font-family: $font;
       font-weight: $weight;
-      font-size: $mn-font;
+      font-size: 25px;
       cursor: $point;
     }
     img {
@@ -35,10 +34,9 @@
   margin-top: 50px;
   ul {
     list-style-type: $no;
-    padding-left: 0;
-    display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    @include flex("", space-between);
+    padding-left: 0px;
     li {
       @include flex(center, center);
       font-size: 20px;
