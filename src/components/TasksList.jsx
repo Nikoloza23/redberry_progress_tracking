@@ -1,10 +1,12 @@
-import { FaExclamationCircle, FaExclamationTriangle, FaFlag } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
 import axios from "axios"
 
 import { BeatLoader, PacmanLoader } from "react-spinners"
 
+import group from '../assets/Group.png'
+import low from '../assets/Low.png'
+import vector from '../assets/Vector.png'
 
 import "../sass/styles/_add_task_list.scss"
 
@@ -38,11 +40,11 @@ function TasksList() {
     const getPriorityIcon = (priority) => {
         switch (priority) {
             case "მაღალი":
-                return <FaExclamationCircle color="red" />;
+                return <img src={vector} alt="" />;
             case "საშუალო":
-                return <FaExclamationTriangle color="orange" />;
+                return <img src={group} alt="" />;
             case "დაბალი":
-                return <FaFlag color="red" />;
+                return <img src={low} alt="" />
             default:
                 return null;
         }
@@ -76,15 +78,17 @@ function TasksList() {
         <div className="tasks_list">
             {sortedTasks.map(task => (
                 <div key={task.id} className={`task_card ${getStatusClass(task.status.name)}`}>
-                    <span className="priority">{getPriorityIcon(task.priority.name)} {task.priority.name}</span>
-                    <p>{task.description.length > 100 ? `${task.description.slice(0, 100)}...` : task.description}</p>
-                    <div className="task_meta">
+                    <div className="task_header">
+                        <span className="priority">{getPriorityIcon(task.priority.name)} {task.priority.name}</span>
+                        <span className="department">{task.department.name}</span>
                         <span className="due_date">{new Date(task.due_date).toLocaleDateString()}</span>
                     </div>
+                    <h3 className="task_name">{task.name}</h3>
+                    <p className="task_description">
+                        {task.description.length > 150 ? `${task.description.slice(0, 150)}...` : task.description}
+                    </p>
                     <div className="task_footer">
-                        <span className="department">{task.department.name}</span>
                         <img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" />
-
                     </div>
                 </div>
             ))}

@@ -52,8 +52,8 @@ function TasksPage() {
 
     return (
         <>
-            <h3>დავალებების გვერდი</h3>
             <div className="tasks_container">
+                <h3>დავალებების გვერდი</h3>
                 <div className="filter_components">
                     <button className="bt1">დეპარტამენტი <img src={shape} alt="" /> </button>
                     <button className="bt2">პრიორიტეტი<img src={shape} alt="" /></button>

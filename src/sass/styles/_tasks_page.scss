@@ -2,11 +2,16 @@
 
 //Task Main Container
 .tasks_container {
-  margin-left: 50px;
+  position: $abs;
+  left: 50px;
+  h3 {
+    font-size: 34px;
+    font-weight: 600;
+    font: $font;
+  }
   .filter_components {
-    width: 550px;
+    width: 650px;
     height: 44px;
-    @include flex("", "");
     gap: $size;
     border: 1px solid #dee2e6;
     border-radius: $size;
@@ -29,7 +34,7 @@
 .statuses {
   margin-top: 50px;
   ul {
-    list-style-type: none;
+    list-style-type: $no;
     padding-left: 0;
     display: flex;
     flex-wrap: wrap;
@@ -42,7 +47,7 @@
   }
   .status_item {
     padding: $size 15px;
-    font-size: 18px;
+    font-size: 30px;
     font-weight: 500;
     color: $wht;
     border-radius: $size;
@@ -51,12 +56,4 @@
     height: 54px;
     cursor: $point;
   }
-}
-
-//Title
-h3 {
-  font-size: 34px;
-  font-weight: 600;
-  font: $font;
-  margin-left: 50px;
 }

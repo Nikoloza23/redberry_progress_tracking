@@ -4,9 +4,9 @@
 .navbar {
   @include flex(center, space-between);
   padding: 20px 50px;
-  margin-bottom: 70px;
+  margin-bottom: 20px;
   .logo {
-    font-size: 31px;
+    font-size: 40px;
     font-weight: $bl;
     color: $color;
     font-family: "Fredoka One";
@@ -18,8 +18,9 @@
     font-weight: $weight;
   }
   .action-button1 {
+    @include flex(center, "");
     padding: 10px 20px;
-    width: 225px;
+    width: 250px;
     height: 39px;
     color: $drkcolor;
     border: 1px solid;
