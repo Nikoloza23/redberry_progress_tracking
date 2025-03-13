@@ -1,5 +1,6 @@
 @use "../index.scss" as *;
 
+//Navbar Content
 .navbar {
   @include flex(center, space-between);
   padding: 20px 50px;

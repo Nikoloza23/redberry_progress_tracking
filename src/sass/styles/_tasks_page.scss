@@ -1,14 +1,15 @@
 @use "../index.scss" as *;
 
+//Task Main Container
 .tasks_container {
   margin-left: 50px;
   .filter_components {
     width: 550px;
     height: 44px;
     @include flex("", "");
-    gap: 10px;
+    gap: $size;
     border: 1px solid #dee2e6;
-    border-radius: 10px;
+    border-radius: $size;
     button {
       padding: 10px 20px;
       background: $no;
@@ -19,11 +20,40 @@
       cursor: $point;
     }
     img {
-      padding-left: 10px;
+      padding-left: $size;
     }
   }
 }
 
+//Statuses From APi
+.statuses {
+  margin-top: 50px;
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    li {
+      @include flex(center, center);
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+  .status_item {
+    padding: $size 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: $wht;
+    border-radius: $size;
+    margin-bottom: 5px;
+    min-width: 381px;
+    height: 54px;
+    cursor: $point;
+  }
+}
+
+//Title
 h3 {
   font-size: 34px;
   font-weight: 600;

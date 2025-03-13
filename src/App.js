@@ -1,7 +1,8 @@
+import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import TasksPage from "./pages/TasksPage";
 
-import { Routes, Route } from "react-router-dom";
 
 import './app.scss'
 
@@ -18,3 +19,6 @@ function App() {
 }
 
 export default App;
+
+/*     https://momentum.redberryinternship.ge/api/tasks
+ */ 
