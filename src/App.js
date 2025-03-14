@@ -2,10 +2,9 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import TasksPage from "./pages/TasksPage";
-
+import TaskDetails from "./pages/TaskDetails";
 
 import './app.scss'
-
 
 function App() {
   return (
@@ -13,6 +12,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<TasksPage />} />
+        <Route path="/tasks/:id" element={<TaskDetails />} />
       </Routes>
     </>
   );
@@ -20,5 +20,3 @@ function App() {
 
 export default App;
 
-/*     https://momentum.redberryinternship.ge/api/tasks
- */ 
