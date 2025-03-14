@@ -1,0 +1,49 @@
+@use "../index.scss" as *;
+
+.task_details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 25px;
+  font-family: $font;
+  margin-left: 50px;
+  .task_details_header {
+    display: flex;
+    flex-direction: column;
+    p {
+      background: #ff66a8;
+      color: $wht;
+      border-radius: 10px;
+      font-weight: $bl;
+    }
+  }
+  .task_priority_department {
+    gap: 15px;
+    @include flex(center, "");
+  }
+  h2 {
+    font-size: 40px;
+    font-family: sans-serif;
+  }
+}
+
+h3 {
+  font-size: 30px;
+}
+
+.added_status {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: $font;
+  p {
+    margin: 20px;
+  }
+
+  .assignee_img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+}
