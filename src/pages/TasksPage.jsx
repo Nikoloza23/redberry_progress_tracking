@@ -12,6 +12,7 @@ import shape from "../assets/Shape.png";
 function TasksPage() {
     const [statuses, setStatuses] = useState([]);
     const [tasks, setTasks] = useState([]);
+    const [dropDown, setDropDown] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -63,6 +64,11 @@ function TasksPage() {
                 return "";
         }
     };
+
+    const dropMenu = (dropdown) => {
+        setDropDown(dropDown === dropdown ? null : dropdown)
+    }
+
     if (loading) return <BeatLoader />;
     if (error) return <PacmanLoader />;
 
@@ -70,9 +76,29 @@ function TasksPage() {
         <div className="tasks_container">
             <h3>დავალებების გვერდი</h3>
             <div className="filter_components">
-                <button className="bt1">დეპარტამენტი <img src={shape} alt="" /></button>
-                <button className="bt2">პრიორიტეტი <img src={shape} alt="" /></button>
-                <button className="bt3">თანამშრომელი <img src={shape} alt="" /></button>
+                <div className="filter_item">
+                    <button className="bt1" onClick={() => dropMenu("department")}>დეპარტამენტი <img src={shape} alt="" /></button>
+                    {dropDown === "department" && (
+                        <div className="dropdown">
+                            <label><input type="checkbox" /> მარკეტინგის დეპარტამენტი</label>
+                            <label><input type="checkbox" /> დიზაინის დეპარტამენტი</label>
+                            <label><input type="checkbox" /> ლოჯისტიკის დეპარტამენტი</label>
+                            <label><input type="checkbox" /> IT დეპარტამენტი</label>
+                            <button className="apply_button">შენახვა</button>
+                        </div>
+                    )}
+
+                </div>
+                <div className="filter_item">
+
+                    <button className="bt2" onClick={() => dropMenu("priority")}>პრიორიტეტი <img src={shape} alt="" /></button>
+                    {dropDown === "priority" && <div className="dropdown">სადად</div>}
+                </div>
+                <div className="filter_item">
+
+                    <button className="bt3" onClick={() => dropMenu("employee")}>თანამშრომელი <img src={shape} alt="" /></button>
+                    {dropDown === "employee" && <div className="dropdown">სადად</div>}
+                </div>
             </div>
             <TasksList statuses={statuses} tasks={tasks} getStatusColor={getStatusColor} getStatusClass={getStatusClass} />
         </div>

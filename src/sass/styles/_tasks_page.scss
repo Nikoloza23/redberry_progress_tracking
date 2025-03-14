@@ -9,11 +9,13 @@
     font: $font;
   }
   .filter_components {
-    width: 750px;
-    height: 54px;
-    gap: $size;
+    @include flex(center, "");
+    gap: 20px;
     border: 1px solid #dee2e6;
     border-radius: $size;
+    .filter_item {
+      position: relative;
+    }
     button {
       padding: 10px 20px;
       background: $no;
@@ -25,6 +27,41 @@
     }
     img {
       padding-left: $size;
+    }
+  }
+
+  .dropdown {
+    @include flex(flex-start, "");
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    position: $abs;
+    top: 100%;
+    left: 0;
+    width: 600px;
+    height: auto;
+    background: $wht;
+    color: #212529;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    font-size: 26px;
+    border-radius: 8px;
+
+    label {
+      @include flex(center, "");
+      gap: 10px;
+    }
+
+    .apply_button {
+      margin-top: 15px;
+      align-self: flex-end;
+      padding: 10px 15px;
+      background: $finished;
+      color: $wht;
+      border: $no;
+      border-radius: 5px;
+      cursor: $point;
     }
   }
 }
