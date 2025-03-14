@@ -1,4 +1,4 @@
-@use "../index.scss" as *;
+/* @use "../index.scss" as *;
 
 .tasks_list {
   flex-wrap: wrap;
@@ -7,7 +7,7 @@
   gap: 40px;
 }
 .task_card {
-  width: 381px;
+  width: 385px;
   min-height: 250px;
   background: $wht;
   border-radius: 12px;
@@ -49,13 +49,93 @@
   .task_description {
     font-size: 25px;
     color: #444;
-    text-align: justify;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
   }
 
   .assignee_img {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+  }
+}
+ */
+
+@use "../index.scss" as *;
+
+.tasks_list {
+  display: flex;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.statuses_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.status_header {
+  font-size: 30px;
+  font-weight: 600;
+  border-radius: 10px;
+  width: 400px;
+  height: 50px;
+  text-align: center;
+}
+
+.tasks_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+
+.task_card {
+  width: 350px;
+  min-height: 250px;
+  background: $wht;
+  border-radius: 12px;
+  padding: 20px 15px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  &.starter {
+    border: 5px solid #f7bc30;
+  }
+
+  &.in-progress {
+    border: 5px solid #ff7a00;
+  }
+
+  &.ready {
+    border: 5px solid #ff005c;
+  }
+
+  &.finished {
+    border: 5px solid #007bff;
+  }
+
+  .task_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  .task_name {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .task_description {
+    font-size: 25px;
+    color: #444;
+    margin-bottom: 30px;
+  }
+  .assignee_img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 2px solid #ddd;
   }
