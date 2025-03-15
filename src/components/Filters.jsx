@@ -25,6 +25,7 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
         onFilterChange({ selectedDepartments, selectedPriorities, selectedEmployees });
         setDropDown(null)
     }
+
     return (
         <div className="filter_components">
             <div className="filter_item">

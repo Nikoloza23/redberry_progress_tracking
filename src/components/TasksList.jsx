@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import group from '../assets/Group.png';
@@ -8,6 +9,7 @@ import "../sass/styles/_task_list.scss";
 
 //Task List Page 
 function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
+    const [comments, setComments] = useState({})
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -64,6 +66,9 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
                                         </p>
                                         <div className="task_footer">
                                             <img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" />
+                                            <span className="comments_info">
+                                                💬1
+                                            </span>
                                         </div>
                                     </li>
                                 ))

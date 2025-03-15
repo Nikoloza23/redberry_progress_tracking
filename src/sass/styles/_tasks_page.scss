@@ -13,8 +13,9 @@
     gap: 20px;
     border: 1px solid #dee2e6;
     border-radius: $size;
+    width: 45vw;
     .filter_item {
-      position: relative;
+      position: $rel;
     }
     button {
       padding: 10px 20px;

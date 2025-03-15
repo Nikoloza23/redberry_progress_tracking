@@ -27,23 +27,44 @@
   }
 }
 
-h3 {
-  font-size: 30px;
-}
-
 .added_status {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 50px;
   font-family: $font;
-  p {
-    margin: 20px;
+  .task_status {
+    font-size: 30px;
+
+    span {
+      font-size: 35px;
+      position: $abs;
+      left: 400px;
+      border: 1px solid gray;
+    }
   }
 
-  .assignee_img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    margin-left: 10px;
+  .task_assignee {
+    .assignee_img {
+      position: $abs;
+      left: 400px;
+      width: 100px;
+      border-radius: 50%;
+    }
+    img {
+      width: 40px;
+    }
+    p {
+      font-size: 30px;
+    }
   }
+  .task_due_date {
+    font-size: 30px;
+    .date {
+      position: $abs;
+    }
+  }
+}
+
+h3 {
+  font-size: 30px;
 }

@@ -20,6 +20,7 @@ function TasksPage() {
         selectedDepartments: [],
         selectedPriorities: [],
         selectedEmployees: [],
+
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -30,12 +31,12 @@ function TasksPage() {
                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
-                        headers: { Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5" },
+                        headers: { Authorization: "Bearer 9e701a1d-06e7-4fa6-ba9a-2455f8892d82" },
                     }),
                     axios.get('https://momentum.redberryinternship.ge/api/departments'),
                     axios.get('https://momentum.redberryinternship.ge/api/priorities'),
                     axios.get('https://momentum.redberryinternship.ge/api/employees', {
-                        headers: { Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5" },
+                        headers: { Authorization: "Bearer 9e701a1d-06e7-4fa6-ba9a-2455f8892d82" },
                     })
 
                 ]);
@@ -93,7 +94,6 @@ function TasksPage() {
                 priorities={priorities}
                 employees={employees}
                 onFilterChange={setSelectedFilters}
-
             />
             <TasksList
                 statuses={statuses}

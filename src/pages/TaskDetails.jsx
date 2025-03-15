@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 
-
 import SplitLayout from '../components/SplitLayout';
 
 import axios from 'axios';
@@ -13,8 +12,6 @@ import vector from '../assets/Vector.png';
 import piechart from '../assets/pie-chart.png'
 import person from '../assets/person.png'
 import hour from '../assets/Hourglass.png'
-
-
 
 import '../sass/styles/_task_details.scss'
 
@@ -29,7 +26,7 @@ function TaskDetail() {
             try {
                 const response = await axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
                     headers: {
-                        Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5",
+                        Authorization: "Bearer 9e701a1d-06e7-4fa6-ba9a-2455f8892d82",
                     }
                 });
                 setTask(response.data);
@@ -78,13 +75,13 @@ function TaskDetail() {
                     <h3>დავალების დეტალები</h3>
                     <div className="added_status">
                         <div className="task_status">
-                            <p><img src={piechart} alt="status" />სტატუსი <span>{task.employee.name}</span></p>
+                            <p><img src={piechart} alt="status" />სტატუსი <span>{task.status.name}</span></p>
                         </div>
                         <div className="task_assignee">
-                            <p><img src={person} alt='person' />თანამშრომელი: <img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" /></p>
+                            <p><img src={person} alt='person' />თანამშრომელი<img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" /></p>
                         </div>
                         <div className="task_due_date">
-                            <p><img src={hour} alt='hour' />დავალების ვადა: {new Date(task.due_date).toLocaleDateString()}</p>
+                            <p><img src={hour} alt='hour' />დავალების ვადა {new Date(task.due_date).toLocaleDateString()}</p>
                         </div>
                     </div>
                 </div>

@@ -56,15 +56,27 @@
     color: #444;
     margin-bottom: 30px;
   }
+}
+ul {
+  list-style-type: $no;
+  flex-wrap: wrap;
+  padding-left: 0px;
+}
+
+.task_footer {
+  @include flex(center, space-between);
+  padding: 8px 12px;
   .assignee_img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     border: 2px solid #ddd;
   }
-}
-ul {
-  list-style-type: $no;
-  flex-wrap: wrap;
-  padding-left: 0px;
+  .comments_info {
+    @include flex(center, "");
+    font-size: 24px;
+    font-weight: 500;
+    color: #555;
+    gap: 5px;
+  }
 }
