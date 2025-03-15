@@ -6,7 +6,8 @@ import vector from '../assets/Vector.png';
 
 import "../sass/styles/_add_task_list.scss";
 
-function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments }) {
+//Task List Page 
+function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -23,7 +24,8 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
     };
 
     const filteredTasks = tasks.filter(task =>
-        selectedDepartments.length === 0 || selectedDepartments.includes(task.department.name)
+        (selectedDepartments.length === 0 || selectedDepartments.includes(task.department.name)) &&
+        (selectedPriorities.length === 0 || selectedPriorities.includes(task.priority.name))
     );
 
 
@@ -35,7 +37,6 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
         <div className="tasks_list">
             {statuses.map((status) => {
                 const filteredTasksByStatus = filteredTasks.filter(task => task.status.name === status.name);
-
                 return (
                     <div key={status.id} className="status_section">
                         <h4 className="status_header" style={{ backgroundColor: getStatusColor(status.name), color: "#fff", padding: "8px", borderRadius: "5px" }}>

@@ -3,17 +3,20 @@ import { BeatLoader, PacmanLoader } from "react-spinners";
 
 import TasksList from "../components/TasksList";
 
-import "../sass/styles/_tasks_page.scss";
 
 import axios from "axios";
-
 import shape from "../assets/Shape.png";
 
+import "../sass/styles/_tasks_page.scss";
+
+//Main Page 
 function TasksPage() {
     const [statuses, setStatuses] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [departments, setDepartments] = useState([]);
+    const [priorities, setPriorities] = useState([])
     const [selectedDepartments, setSelectedDepartments] = useState([]);
+    const [selectedPriorities, setSelectedPriorities] = useState([]);
     const [dropDown, setDropDown] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,16 +24,19 @@ function TasksPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [statusesRes, tasksRes, departmentsRes] = await Promise.all([
+                const [statusesRes, tasksRes, departmentsRes, prioritiesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
                         headers: { Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5" },
                     }),
-                    axios.get('https://momentum.redberryinternship.ge/api/departments')
+                    axios.get('https://momentum.redberryinternship.ge/api/departments'),
+                    axios.get('https://momentum.redberryinternship.ge/api/priorities'),
+
                 ]);
                 setStatuses(statusesRes.data);
                 setTasks(tasksRes.data);
                 setDepartments(departmentsRes.data);
+                setPriorities(prioritiesRes.data)
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -82,6 +88,15 @@ function TasksPage() {
         );
     };
 
+    const togglePriority = (priorityName) => {
+        setSelectedPriorities(prev =>
+            prev.includes(priorityName)
+                ? prev.filter(p => p !== priorityName)
+                : [...prev, priorityName]
+        );
+    };
+
+
 
     const applyDepartmentFilter = () => {
         setSelectedDepartments([...selectedDepartments]);
@@ -117,9 +132,12 @@ function TasksPage() {
                     <button className="bt2" onClick={() => dropMenu("priority")}>პრიორიტეტი <img src={shape} alt="" /></button>
                     {dropDown === "priority" && (
                         <div className="dropdown">
-                            <label><input type="checkbox" /> დაბალი</label>
-                            <label><input type="checkbox" /> საშუალო </label>
-                            <label><input type="checkbox" /> მაღალი</label>
+                            {priorities.map((priority) => (
+                                <label key={priority.id}>
+                                    <input type="checkbox" onChange={() => togglePriority(priority.name)} />
+                                    {priority.name}
+                                </label>
+                            ))}
                             <button className="apply_button">არჩევა </button>
                         </div>
                     )}
@@ -142,6 +160,7 @@ function TasksPage() {
                 getStatusColor={getStatusColor}
                 getStatusClass={getStatusClass}
                 selectedDepartments={selectedDepartments}
+                selectedPriorities={selectedPriorities}
             />
         </div>
     );
