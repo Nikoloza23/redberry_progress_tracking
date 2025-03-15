@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { BeatLoader, PacmanLoader } from "react-spinners";
 
 import TasksList from "../components/TasksList";
+import Filters from "../components/Filters";
 
 
-import axios from "axios";
-import shape from "../assets/Shape.png";
+import axios from "axios"
 
 import "../sass/styles/_tasks_page.scss";
 
@@ -14,29 +14,36 @@ function TasksPage() {
     const [statuses, setStatuses] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [departments, setDepartments] = useState([]);
-    const [priorities, setPriorities] = useState([])
-    const [selectedDepartments, setSelectedDepartments] = useState([]);
-    const [selectedPriorities, setSelectedPriorities] = useState([]);
-    const [dropDown, setDropDown] = useState(null)
+    const [priorities, setPriorities] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [selectedFilters, setSelectedFilters] = useState({
+        selectedDepartments: [],
+        selectedPriorities: [],
+        selectedEmployees: [],
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [statusesRes, tasksRes, departmentsRes, prioritiesRes] = await Promise.all([
+                const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
                         headers: { Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5" },
                     }),
                     axios.get('https://momentum.redberryinternship.ge/api/departments'),
                     axios.get('https://momentum.redberryinternship.ge/api/priorities'),
+                    axios.get('https://momentum.redberryinternship.ge/api/employees', {
+                        headers: { Authorization: "Bearer 9e6fae93-3759-4a61-a38a-019d045d14e5" },
+                    })
 
                 ]);
                 setStatuses(statusesRes.data);
                 setTasks(tasksRes.data);
                 setDepartments(departmentsRes.data);
-                setPriorities(prioritiesRes.data)
+                setPriorities(prioritiesRes.data);
+                setEmployees(employeesRes.data);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -59,7 +66,6 @@ function TasksPage() {
     };
 
 
-
     const getStatusClass = (status) => {
         switch (status) {
             case "დასაწყები":
@@ -75,35 +81,6 @@ function TasksPage() {
         }
     };
 
-    const dropMenu = (dropdown) => {
-        setDropDown(dropDown === dropdown ? null : dropdown)
-    }
-
-
-    const toggleDepartment = (departmentName) => {
-        setSelectedDepartments(prev =>
-            prev.includes(departmentName)
-                ? prev.filter(dep => dep !== departmentName)
-                : [...prev, departmentName]
-        );
-    };
-
-    const togglePriority = (priorityName) => {
-        setSelectedPriorities(prev =>
-            prev.includes(priorityName)
-                ? prev.filter(p => p !== priorityName)
-                : [...prev, priorityName]
-        );
-    };
-
-
-
-    const applyDepartmentFilter = () => {
-        setSelectedDepartments([...selectedDepartments]);
-        setDropDown(null);
-    };
-
-
 
     if (loading) return <BeatLoader />;
     if (error) return <PacmanLoader />;
@@ -111,56 +88,21 @@ function TasksPage() {
     return (
         <div className="tasks_container">
             <h3>დავალებების გვერდი</h3>
-            <div className="filter_components">
-                <div className="filter_item">
-                    <button className="bt1" onClick={() => dropMenu("department")}>დეპარტამენტი <img src={shape} alt="" /></button>
-                    {dropDown === "department" && (
+            <Filters
+                departments={departments}
+                priorities={priorities}
+                employees={employees}
+                onFilterChange={setSelectedFilters}
 
-                        <div className="dropdown">
-                            {departments.map(dep => (
-                                <label key={dep.id}>
-                                    <input type="checkbox" onChange={() => toggleDepartment(dep.name)} />
-                                    {dep.name}
-                                </label>
-                            ))}
-                            <button className="apply_button" onClick={applyDepartmentFilter}>არჩევა </button>
-                        </div>
-                    )}
-
-                </div>
-                <div className="filter_item">
-                    <button className="bt2" onClick={() => dropMenu("priority")}>პრიორიტეტი <img src={shape} alt="" /></button>
-                    {dropDown === "priority" && (
-                        <div className="dropdown">
-                            {priorities.map((priority) => (
-                                <label key={priority.id}>
-                                    <input type="checkbox" onChange={() => togglePriority(priority.name)} />
-                                    {priority.name}
-                                </label>
-                            ))}
-                            <button className="apply_button">არჩევა </button>
-                        </div>
-                    )}
-                </div>
-                <div className="filter_item">
-
-                    <button className="bt3" onClick={() => dropMenu("employee")}>თანამშრომელი <img src={shape} alt="" /></button>
-                    {dropDown === "employee" && (
-                        <div className="dropdown">
-                            <label><input type="checkbox" /> <img src={tasks.avatar} />{tasks.name}</label>
-
-                            <button className="apply_button">არჩევა </button>
-                        </div>
-                    )}
-                </div>
-            </div>
+            />
             <TasksList
                 statuses={statuses}
                 tasks={tasks}
                 getStatusColor={getStatusColor}
                 getStatusClass={getStatusClass}
-                selectedDepartments={selectedDepartments}
-                selectedPriorities={selectedPriorities}
+                selectedDepartments={selectedFilters.selectedDepartments}
+                selectedPriorities={selectedFilters.selectedPriorities}
+                selectedEmployees={selectedFilters.selectedEmployees}
             />
         </div>
     );

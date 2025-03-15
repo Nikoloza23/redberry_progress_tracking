@@ -4,7 +4,7 @@ import group from '../assets/Group.png';
 import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
-import "../sass/styles/_add_task_list.scss";
+import "../sass/styles/_task_list.scss";
 
 //Task List Page 
 function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
