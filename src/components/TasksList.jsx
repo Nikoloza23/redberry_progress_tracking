@@ -6,7 +6,7 @@ import vector from '../assets/Vector.png';
 
 import "../sass/styles/_add_task_list.scss";
 
-function TasksList({ statuses, tasks, getStatusColor, getStatusClass }) {
+function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments }) {
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -22,6 +22,11 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass }) {
         }
     };
 
+    const filteredTasks = tasks.filter(task =>
+        selectedDepartments.length === 0 || selectedDepartments.includes(task.department.name)
+    );
+
+
     const handleTaskClick = (taskId) => {
         navigate(`/tasks/${taskId}`);
     }
@@ -29,7 +34,7 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass }) {
     return (
         <div className="tasks_list">
             {statuses.map((status) => {
-                const filteredTasks = tasks.filter(task => task.status.name === status.name);
+                const filteredTasksByStatus = filteredTasks.filter(task => task.status.name === status.name);
 
                 return (
                     <div key={status.id} className="status_section">
@@ -37,8 +42,8 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass }) {
                             {status.name}
                         </h4>
                         <ul>
-                            {filteredTasks.length > 0 ? (
-                                filteredTasks.map(task => (
+                            {filteredTasksByStatus.length > 0 ? (
+                                filteredTasksByStatus.map(task => (
                                     <li key={task.id}
                                         className={`task_card ${getStatusClass(task.status.name)}`}
                                         onClick={() => handleTaskClick(task.id)}
