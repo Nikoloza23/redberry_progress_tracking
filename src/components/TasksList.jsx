@@ -9,7 +9,6 @@ import "../sass/styles/_task_list.scss";
 
 //Task List Page 
 function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
-    const [comments, setComments] = useState({})
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -60,9 +59,11 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
                                         </div>
                                         <h3 className="task_name">{task.name}</h3>
                                         <p className="task_description">
-                                            {task.description.length > 150
-                                                ? `${task.description.slice(0, 150)}...`
-                                                : task.description}
+                                            {task.description
+                                                ? (task.description.length > 150
+                                                    ? `${task.description.slice(0, 150)}...`
+                                                    : task.description)
+                                                : "აღწერა არ არის"}
                                         </p>
                                         <div className="task_footer">
                                             <img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" />

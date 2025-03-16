@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { UPLOAD_DATA } from '../redux/actions'
+
 import { identity } from "../redux/selectors";
-import { ADD_TASK, UPLOAD_DATA } from "../redux/actions";
 
 import axios from "axios";
 
@@ -36,15 +37,13 @@ const AddNewTask = () => {
 
     const departmentSelected = watch("department")
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
                 const employeeResponse = await axios.get("https://momentum.redberryinternship.ge/api/employees", {
                     headers: {
-                        Authorization: "Bearer 9e701a1d-06e7-4fa6-ba9a-2455f8892d82"
+                        Authorization: "Bearer 9e71ddaa-7093-454d-b912-57f0f85e7fb8"
                     }
                 });
                 const priorityResponse = await axios.get("https://momentum.redberryinternship.ge/api/priorities")
@@ -65,15 +64,13 @@ const AddNewTask = () => {
     }, [])
 
 
-    const onSubmit = data => {
-        dispatch(UPLOAD_DATA(data))
-
-        navigate("/")
-
-        console.log(data)
+    const onSubmit = (data) => {
+        UPLOAD_DATA(data).then(res => {
+            console.log("Server Response", res.data)
+            alert("New Task Added Successfully!")
+            navigate("/")
+        })
     }
-
-
 
     return (
         <>
@@ -120,12 +117,11 @@ const AddNewTask = () => {
                                 <p className="error_styles">{errors.description.message}</p>
                             )}
                         </div>
-
                         <div className="form_group">
                             <label>პასუხისმგებელი თანამშრომელი*</label>
                             <select
-                                defaultValue={identitySelectors?.employee}
-                                {...register("employee",
+                                defaultValue={identitySelectors?.employee_id}
+                                {...register("employee_id",
                                     { required: "გთხოვთ აირჩიოთ პასუხისმგებელი თანამშრომელი" })}>
                                 {employees
                                     /* .filter(employee => employee.departmentId === departmentSelected) */
@@ -135,41 +131,41 @@ const AddNewTask = () => {
                                         </option>
                                     ))}
                             </select>
-                            {errors.employee && (
-                                <p className="error_styles">{errors.employee.employee}</p>
+                            {errors.employee_id && (
+                                <p className="error_styles">{errors.employee_id.message}</p>
                             )}
                         </div>
                         <div className="form_group">
                             <label>პრიორიტეტი*</label>
                             <select className="form_statuses"
-                                defaultValue={identitySelectors?.priority}
-                                {...register("priority", { required: "გთხოვთ აირჩიოთ პრიორიტეტი" })}>
+                                defaultValue={identitySelectors?.priority_id}
+                                {...register("priority_id", { required: "გთხოვთ აირჩიოთ პრიორიტეტი" })}>
                                 {priorities.map(priority => (
                                     <option key={priority.id} value={priority.id}>{priority.name}</option>
                                 ))}
                             </select>
-                            {errors.priority && (
-                                <p className="error_styles">{errors.priority.message}</p>
+                            {errors.priority_id && (
+                                <p className="error_styles">{errors.priority_id.message}</p>
                             )}
                         </div>
                         <div className="form_group">
                             <label>სტატუსი*</label>
                             <select
                                 className="form_statuses"
-                                {...register("status", { required: "გთხოვთ აირჩიოთ სტატუსი" })}
-                                defaultValue={identitySelectors?.status}>
+                                {...register("status_id", { required: "გთხოვთ აირჩიოთ სტატუსი" })}
+                                defaultValue={identitySelectors?.status_id}>
                                 {statuses.map(status => (
                                     <option key={status.id} value={status.id}>{status.name}</option>
                                 ))}
                             </select>
-                            {errors.status && (
-                                <p className="error_styles">{errors.status.message}</p>
+                            {errors.status_id && (
+                                <p className="error_styles">{errors.status_id.message}</p>
                             )}
                         </div>
                         <div className="form_group">
                             <label>დედლაინი</label>
                             <input type="date"
-                                defaultValue={identitySelectors?.due_date}
+                                defaultValue={identitySelectors?.due_date || ""}
                                 {...register("due_date", {
                                     required: "გთხოვთ აირჩიოთ დედლაინი",
                                     validate: value => new Date(value) > new Date() || "გთხოვთ აირჩიოთ მომავალი თარიღი"
@@ -182,7 +178,7 @@ const AddNewTask = () => {
                         </button>
                     </form>
                 </div>
-            </div>
+            </div >
         </>
     );
 };
