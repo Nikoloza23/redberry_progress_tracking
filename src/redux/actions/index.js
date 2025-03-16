@@ -1,11 +1,10 @@
 import axios from 'axios'
-import * as types from '../action-types'
 
-export const ADD_TASK = data => ({
+/* export const ADD_TASK = data => ({
     type: types.ADD_NEW_TASK,
     payload: data
 })
-
+ */
 export const UPLOAD_DATA = async (data) => {
     try {
         const response = await axios.post(
