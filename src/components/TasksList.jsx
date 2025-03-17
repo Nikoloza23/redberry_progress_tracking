@@ -13,7 +13,7 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
     const getPriorityIcon = (priority) => {
         switch (priority) {
             case "მაღალი":
-                return <img src={vector} alt="" />;
+                return <img src={vector} alt="" />
             case "საშუალო":
                 return <img src={group} alt="" />;
             case "დაბალი":
