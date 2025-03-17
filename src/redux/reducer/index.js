@@ -6,9 +6,7 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
-        /*  case types.ADD_NEW_TASK:
-             return { ...state, identity: action.payload };
-  */
+
         case types.UPLOAD_DATA_TYPE:
             return { ...state, identity: action.payload }
 

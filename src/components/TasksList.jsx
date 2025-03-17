@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import group from '../assets/Group.png';
