@@ -23,7 +23,6 @@ const Navbar = () => {
 
                         <button className="action-button">+ შექმენი ახალი დავალება </button>
                     </Link>
-
                 </div>
             </nav>
             {showModal && <AddEmployee onClose={() => setShowModal(false)} />}

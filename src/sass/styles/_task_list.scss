@@ -3,22 +3,24 @@
 //Listed tasks scss
 .tasks_list {
   display: flex;
-  margin: 20px 50px;
-  gap: 20px;
+  margin: 20px 0px;
+  gap: 70px;
   .status_header {
     font-size: 30px;
     font-weight: 600;
     border-radius: 10px;
-    width: 400px;
-    height: 50px;
+    color: $wht;
+    padding: 10px;
+    width: 381px;
+    height: 54px;
     text-align: center;
   }
 }
 
 //Some Design :)
 .task_card {
-  width: 350px;
-  min-height: 250px;
+  width: 381px;
+  height: max-content;
   background: $wht;
   border-radius: 12px;
   padding: 20px 15px;
@@ -43,7 +45,7 @@
   .task_header {
     @include flex(center, space-between);
     font-size: 14px;
-    font-weight: $bl;
+    font-weight: bolder;
     margin-bottom: 16px;
   }
   .task_name {

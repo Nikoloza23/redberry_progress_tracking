@@ -26,7 +26,7 @@ function TaskDetail() {
             try {
                 const response = await axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
                     headers: {
-                        Authorization: "Bearer 9e75a342-5310-4d57-bede-1449e259e321",
+                        Authorization: "Bearer 9e76b2fe-c8f2-4f67-9d3f-1a89badc9d76",
                     }
                 });
                 setTask(response.data);

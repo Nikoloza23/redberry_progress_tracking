@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+
+
 import { useDispatch, useSelector } from "react-redux";
-
 import { UPLOAD_DATA } from '../redux/actions'
-
 import { identity } from "../redux/selectors";
 
 import axios from "axios";
-
 
 import group from '../assets/Group.png';
 import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
-
 import "../sass/styles/_forms_module.scss";
+
 //Add your own Task
 const AddNewTask = () => {
     const navigate = useNavigate();
@@ -133,7 +132,6 @@ const AddNewTask = () => {
                             </select>
                             {errors.department && <p className="error_styles">{errors.department.message}</p>}
                         </div>
-
                         <div className="form_group">
                             <label>აღწერა</label>
                             <textarea
@@ -225,7 +223,6 @@ const AddNewTask = () => {
                                 })} />
                             {errors.due_date && <p className="error_styles">{errors.due_date.message}</p>}
                         </div>
-
                         <button type="submit" className="submit-button">
                             დავალების შექმნა
                         </button>

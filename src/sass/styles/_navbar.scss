@@ -9,7 +9,7 @@
     font-size: 40px;
     font-weight: $bl;
     color: $color;
-    font-family: "Fredoka One";
+    font-family: $font;
   }
   .buttons {
     display: flex;
@@ -27,7 +27,7 @@
     border-radius: 5px;
     cursor: $point;
     font-size: $mn-font;
-    background-color: #ffffff;
+    background-color: $wht;
   }
 
   .action-button {
@@ -35,7 +35,7 @@
     height: 38px;
     background-color: $bg-color;
     border: $no;
-    color: white;
+    color: $wht;
     border-radius: 5px;
     cursor: $point;
     font-size: $mn-font;

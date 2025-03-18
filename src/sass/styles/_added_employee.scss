@@ -1,63 +1,97 @@
+@use "../index.scss" as *;
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: $content;
+  height: $content;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex(center, center);
   z-index: 1000;
-}
+  .modal-content {
+    background: $wht;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 913px;
+    height: 766px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 35px;
+    .input-group {
+      @include flex("", space-between);
+      gap: 20px;
+      .input-field {
+        flex: 1;
+      }
+    }
+    .input-field {
+      @include flex(flex-start, "");
+      flex-direction: column;
+      gap: 5px;
+      label {
+        font-size: 20px;
+        font-weight: 500;
+        color: #343a40;
+        font-weight: bolder;
+        margin-bottom: 10px;
+      }
+      input {
+        width: 384px;
+        height: 52px;
+        border-radius: 6px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+    }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: center;
-}
+    textarea {
+      width: 883px;
+      height: 120px;
+      border-radius: 8px;
+    }
+    select {
+      width: 384px;
+      height: 62px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  }
+  h2 {
+    margin-bottom: 10px;
+    font-size: 36px;
+    font-family: $font;
+  }
+  .button-group {
+    @include flex(center, flex-end);
+    margin-top: 10px;
+  }
+  .close-button,
+  .submit-button {
+    padding: 20px 15px;
+    border: $no;
+    border-radius: 5px;
+    cursor: $point;
+    margin: 20px;
+    font-size: 20px;
+  }
 
-h2 {
-  margin-bottom: 10px;
-  font-size: 20px;
-}
+  .close-button {
+    background: $wht;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid $bg-color;
+  }
 
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.close-button,
-.submit-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.close-button {
-  background: #ccc;
-  color: black;
-}
-
-.submit-button {
-  background: #6200ea;
-  color: white;
+  .submit-button {
+    background: #6200ea;
+    color: $wht;
+    border-radius: 5px;
+  }
 }

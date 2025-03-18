@@ -39,7 +39,7 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
                 const filteredTasksByStatus = filteredTasks.filter(task => task.status.name === status.name);
                 return (
                     <div key={status.id} className="status_section">
-                        <h4 className="status_header" style={{ backgroundColor: getStatusColor(status.name), color: "#fff", padding: "8px", borderRadius: "5px" }}>
+                        <h4 className="status_header" style={{ backgroundColor: getStatusColor(status.name) }}>
                             {status.name}
                         </h4>
                         <ul>

@@ -9,11 +9,9 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
     const [selectedPriorities, setSelectedPriorities] = useState([])
     const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-
     const dropMenu = (dropdown) => {
         setDropDown(prev => (prev === dropdown ? null : dropdown))
     }
-
 
     const toggleSelection = (setSelected, value) => {
         setSelected(prev =>
