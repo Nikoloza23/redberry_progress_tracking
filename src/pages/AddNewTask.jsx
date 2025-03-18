@@ -50,7 +50,7 @@ const AddNewTask = () => {
                 const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
                 const employeeResponse = await axios.get("https://momentum.redberryinternship.ge/api/employees", {
                     headers: {
-                        Authorization: "Bearer 9e74073a-b20c-4754-971b-13c4222c6ef8"
+                        Authorization: "Bearer 9e75a342-5310-4d57-bede-1449e259e321"
                     }
                 });
                 const priorityResponse = await axios.get("https://momentum.redberryinternship.ge/api/priorities")

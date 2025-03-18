@@ -31,12 +31,12 @@ function TasksPage() {
                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
-                        headers: { Authorization: "Bearer 9e74073a-b20c-4754-971b-13c4222c6ef8" },
+                        headers: { Authorization: "Bearer 9e75a342-5310-4d57-bede-1449e259e321" },
                     }),
                     axios.get('https://momentum.redberryinternship.ge/api/departments'),
                     axios.get('https://momentum.redberryinternship.ge/api/priorities'),
                     axios.get('https://momentum.redberryinternship.ge/api/employees', {
-                        headers: { Authorization: "Bearer 9e74073a-b20c-4754-971b-13c4222c6ef8" },
+                        headers: { Authorization: "Bearer 9e75a342-5310-4d57-bede-1449e259e321" },
                     })
 
                 ]);

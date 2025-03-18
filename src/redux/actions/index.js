@@ -6,7 +6,7 @@ export const UPLOAD_DATA = async (data) => {
         const response = await axios.post(
             'https://momentum.redberryinternship.ge/api/tasks',
             data,
-            { headers: { Authorization: "Bearer 9e74073a-b20c-4754-971b-13c4222c6ef8" } }
+            { headers: { Authorization: "Bearer 9e75a342-5310-4d57-bede-1449e259e321" } }
         )
         return response;
 
