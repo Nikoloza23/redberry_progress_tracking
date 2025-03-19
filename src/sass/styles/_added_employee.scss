@@ -16,7 +16,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 913px;
-    height: 766px;
+    height: auto;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -32,6 +32,7 @@
       @include flex(flex-start, "");
       flex-direction: column;
       gap: 5px;
+      margin-bottom: 20px;
       label {
         font-size: 20px;
         font-weight: 500;
@@ -42,18 +43,27 @@
       input {
         width: 384px;
         height: 52px;
-        border-radius: 6px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 14px;
       }
-    }
+      .upload_avatar {
+        width: 833px;
+        height: 140px;
+        margin-bottom: 10px;
+      }
 
-    textarea {
-      width: 883px;
-      height: 120px;
-      border-radius: 8px;
+      .image_preview_container {
+        position: $abs;
+        right: 50%;
+        top: 45%;
+        .uploaded_avatar {
+          width: 150px;
+          height: 100px;
+          border-radius: 20px;
+        }
+      }
     }
     select {
       width: 384px;

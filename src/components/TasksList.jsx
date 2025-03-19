@@ -7,7 +7,7 @@ import vector from '../assets/Vector.png';
 import "../sass/styles/_task_list.scss";
 
 //Task List Page 
-function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
+function TasksList({ statuses, tasks, comments, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -67,7 +67,7 @@ function TasksList({ statuses, tasks, getStatusColor, getStatusClass, selectedDe
                                         <div className="task_footer">
                                             <img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" />
                                             <span className="comments_info">
-                                                💬1
+                                                💬 {comments[task.id]?.length || 0}
                                             </span>
                                         </div>
                                     </li>

@@ -35,7 +35,6 @@
   font-family: $font;
   .task_status {
     font-size: 30px;
-
     span {
       font-size: 35px;
       position: $abs;
@@ -49,6 +48,7 @@
       left: 400px;
       width: 100px;
       border-radius: 50%;
+      height: 80px;
     }
     img {
       width: 40px;
@@ -56,6 +56,61 @@
     p {
       font-size: 30px;
     }
+  }
+}
+
+.task_comments {
+  @include flex(center, center);
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  .comment_input {
+    position: $rel;
+    margin-bottom: 16px;
+    textarea {
+      width: 741px;
+      height: 135px;
+      padding: 12px;
+      margin-top: 45px;
+      padding-right: 50px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      resize: $no;
+      &::placeholder {
+        color: #aaa;
+        font-size: 24px;
+      }
+    }
+    button {
+      position: $abs;
+      right: 20px;
+      bottom: 10px;
+      width: 155px;
+      background: $bg-color;
+      color: $wht;
+      border: $no;
+      padding: 15px 10px;
+      border-radius: 20px;
+      cursor: $point;
+      font-size: 18px;
+      transition: 0.2s ease;
+      margin-bottom: 20px;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+  }
+
+  .comment_author_img {
+    margin-top: 500px;
+    width: 100px;
+    border-radius: 50%;
+  }
+  p {
+    font-size: 30px;
   }
   .task_due_date {
     font-size: 30px;

@@ -16,6 +16,7 @@ function TasksPage() {
     const [departments, setDepartments] = useState([]);
     const [priorities, setPriorities] = useState([]);
     const [employees, setEmployees] = useState([]);
+    const [comments, setComments] = useState({})
     const [selectedFilters, setSelectedFilters] = useState({
         selectedDepartments: [],
         selectedPriorities: [],
@@ -31,14 +32,13 @@ function TasksPage() {
                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
-                        headers: { Authorization: "Bearer 9e76b2fe-c8f2-4f67-9d3f-1a89badc9d76" },
+                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
                     }),
                     axios.get('https://momentum.redberryinternship.ge/api/departments'),
                     axios.get('https://momentum.redberryinternship.ge/api/priorities'),
                     axios.get('https://momentum.redberryinternship.ge/api/employees', {
-                        headers: { Authorization: "Bearer 9e76b2fe-c8f2-4f67-9d3f-1a89badc9d76" },
-                    })
-
+                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                    }),
                 ]);
                 setStatuses(statusesRes.data);
                 setTasks(tasksRes.data);
@@ -53,6 +53,32 @@ function TasksPage() {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (tasks.length > 0) {
+            const fetchComments = async () => {
+                try {
+                    const commentsData = await Promise.all(
+                        tasks.map(async (task) => {
+                            const response = await
+                                axios.get(`https://momentum.redberryinternship.ge/api/tasks/${task.id}/comments`, {
+                                    headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                                })
+                            return { task_id: task.id, comments: response.data }
+                        })
+                    )
+                    const commentsMap = commentsData.reduce((acc, { task_id, comments }) => {
+                        acc[task_id] = comments;
+                        return acc;
+                    }, {})
+                    setComments(commentsMap)
+                } catch (error) {
+                    console.log("Error fetching comments", error)
+                }
+            }
+            fetchComments()
+        }
+    }, [tasks])
 
 
     const getStatusColor = (statusName) => {
@@ -98,6 +124,7 @@ function TasksPage() {
             <TasksList
                 statuses={statuses}
                 tasks={tasks}
+                comments={comments}
                 getStatusColor={getStatusColor}
                 getStatusClass={getStatusClass}
                 selectedDepartments={selectedFilters.selectedDepartments}

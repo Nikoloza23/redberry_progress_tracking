@@ -19,17 +19,23 @@ import '../sass/styles/_task_details.scss'
 function TaskDetail() {
     const { id } = useParams();
     const [task, setTask] = useState();
+    const [comments, setComments] = useState([])
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchTaskDetails = async () => {
             try {
-                const response = await axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
-                    headers: {
-                        Authorization: "Bearer 9e76b2fe-c8f2-4f67-9d3f-1a89badc9d76",
-                    }
-                });
-                setTask(response.data);
+                const [taskResponse, commentsResponse] = await Promise.all([
+                    axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
+                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                    }),
+                    axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}/comments`, {
+                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                    }),
+                ])
+                setTask(taskResponse.data);
+                setComments(commentsResponse.data)
+                console.log(commentsResponse.data)
             } catch (error) {
                 console.error('Error fetching task details', error);
             } finally {
@@ -87,8 +93,30 @@ function TaskDetail() {
                 </div>
             }
             rightContent={
-                <div className="task_detail">
-                    dasda
+                <div className="task_comments">
+                    <div className="comment_input">
+                        <textarea
+                            placeholder='დაწერე კომენტარი'
+                        />
+                        <button>დააკომენტარე</button>
+                    </div>
+                    {comments.length > 0 ? (
+                        <ul>
+                            {comments.map((comment) => (
+                                <li key={comment.id}>
+                                    <div className="comment_header">
+                                        <img src={comment.author_avatar} alt={comment.author_avatar} className="comment_author_img" />
+                                        <span className="comment_author">{comment.author_nickname}</span>
+                                        <span className="comment_date">{new Date(comment.created_at).toLocaleDateString()}</span>
+                                    </div>
+                                    <p className="comment_text">{comment.text}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>კომენტარის გარეშე</p>
+                    )}
+
                 </div>
             }
         />
