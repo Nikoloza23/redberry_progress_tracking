@@ -20,21 +20,26 @@ function TaskDetail() {
     const { id } = useParams();
     const [task, setTask] = useState();
     const [comments, setComments] = useState([])
+    const [status, setStatus] = useState([])
     const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchTaskDetails = async () => {
             try {
-                const [taskResponse, commentsResponse] = await Promise.all([
+                const [taskResponse, commentsResponse, statusResponse] = await Promise.all([
                     axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
                         headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
                     axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}/comments`, {
                         headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
+                    axios.get("https://momentum.redberryinternship.ge/api/statuses")
+
                 ])
                 setTask(taskResponse.data);
                 setComments(commentsResponse.data)
+                setStatus(statusResponse.data)
                 console.log(commentsResponse.data)
             } catch (error) {
                 console.error('Error fetching task details', error);
@@ -81,8 +86,14 @@ function TaskDetail() {
                     <h3>დავალების დეტალები</h3>
                     <div className="added_status">
                         <div className="task_status">
-                            <p><img src={piechart} alt="status" />სტატუსი <span>{task.status.name}</span></p>
+                            <p><img src={piechart} alt="status" />სტატუსი </p>
                         </div>
+                        <select defaultValue={status.name}>
+                            {status.map(el => (
+                                <option key={el.id} >{el.name}</option>
+
+                            ))}
+                        </select>
                         <div className="task_assignee">
                             <p><img src={person} alt='person' />თანამშრომელი<img src={task.employee.avatar} alt={task.employee.name} className="assignee_img" /></p>
                         </div>

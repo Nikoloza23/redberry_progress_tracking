@@ -125,7 +125,7 @@ const AddNewTask = () => {
                         </div>
                         <div className="form_group">
                             <label>დეპარტამენტი*</label>
-                            <select {...register("department", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })}>
+                            <select {...register("department", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })} >
                                 {departments.map(department => (
                                     <option key={department.id} value={department.id}>{department.name}</option>
                                 ))}

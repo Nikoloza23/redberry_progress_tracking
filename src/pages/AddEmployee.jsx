@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import { UPLOAD_EMPLOYEE } from "../redux/actions";
-
-import { user } from "../redux/selectors";
 
 import axios from "axios"
 
 import "../sass/styles/_added_employee.scss"
 
-
 function AddEmployee({ onClose }) {
     const navigate = useNavigate()
-    const dispatch = useDispatch();
     const [departments, setDepartments] = useState([])
     const [loading, setLoading] = useState(true)
-    const identityEmployee = useSelector(user)
     const [imagePreview, setImagePreview] = useState("")
-
     const {
         handleSubmit,
         register,
@@ -46,22 +37,20 @@ function AddEmployee({ onClose }) {
 
 
     const onSubmit = async (data) => {
-        console.log(data)
-        const selectedDepartment = departments.find(dep => dep.name === data.department_id);
-        if (!selectedDepartment) {
-            alert("Invalid department selection");
-            return;
-        }
 
-        const payload = {
-            id: selectedDepartment.id,
-            name: data.name,
-            surname: data.surname,
-            avatar: imagePreview,
-        };
+        console.log(departments);
+        const formdata = new FormData();
+        formdata.append("department_id", data.department_id)
+        formdata.append("name", data.name)
+        formdata.append("surname", data.surname)
+        formdata.append("avatar", data.avatar)
+
+        for (let pair of formdata.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
         try {
-            const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", payload, {
-                headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+            const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
+                headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af", "Content-Type": "multipart/form-data" },
             });
 
             const employeeData = response.data;
@@ -74,23 +63,7 @@ function AddEmployee({ onClose }) {
     };
 
     const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            if (!file.type.startsWith("image/")) {
-                alert("Please upload a valid image file!");
-                return;
-            }
-            if (file.size > 2 * 1024 * 1024) {
-                alert("Image size should be less than 2MB!");
-                return;
-            }
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-                setValue("avatar", reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        setValue("avatar", e.target.files[0]);
     };
 
 
