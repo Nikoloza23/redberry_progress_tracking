@@ -27,10 +27,10 @@ function TaskDetail() {
             try {
                 const [taskResponse, commentsResponse] = await Promise.all([
                     axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
-                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
                     axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}/comments`, {
-                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
                 ])
                 setTask(taskResponse.data);

@@ -15,10 +15,10 @@ import "../sass/styles/_added_employee.scss"
 function AddEmployee({ onClose }) {
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const identityEmployee = useSelector(user)
     const [departments, setDepartments] = useState([])
     const [loading, setLoading] = useState(true)
-    const [imagePreview, setImagePreview] = useState(identityEmployee?.photo || "")
+    const identityEmployee = useSelector(user)
+    const [imagePreview, setImagePreview] = useState("")
 
     const {
         handleSubmit,
@@ -26,7 +26,6 @@ function AddEmployee({ onClose }) {
         formState: { errors },
         setValue,
     } = useForm({
-        defaultValues: identityEmployee || {},
         mode: "onChange"
     })
 
@@ -46,49 +45,61 @@ function AddEmployee({ onClose }) {
 
 
 
+    const onSubmit = async (data) => {
+        console.log(data)
+        const selectedDepartment = departments.find(dep => dep.name === data.department_id);
+        if (!selectedDepartment) {
+            alert("Invalid department selection");
+            return;
+        }
+
+        const payload = {
+            id: selectedDepartment.id,
+            name: data.name,
+            surname: data.surname,
+            avatar: imagePreview,
+        };
+        try {
+            const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", payload, {
+                headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+            });
+
+            const employeeData = response.data;
+            localStorage.setItem('employee', JSON.stringify(employeeData));
+            navigate("/");
+        } catch (error) {
+            console.error("Error submitting employee data", error);
+            alert("Failed to add employee. Please try again.");
+        }
+    };
+
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
             if (!file.type.startsWith("image/")) {
-                alert("Please select an image file");
+                alert("Please upload a valid image file!");
                 return;
             }
-            if (file.size > 600 * 1024) {
-                alert("Please select an image file with size less than 600KB");
+            if (file.size > 2 * 1024 * 1024) {
+                alert("Image size should be less than 2MB!");
                 return;
             }
-            const formData = new FormData();
-            formData.append('file', file);
-
-            axios.post("https://momentum.redberryinternship.ge/api/employees", formData, {
-                headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" }
-            })
-                .then((response) => {
-                    const avatarUrl = response.data.avatar_url;
-                    setImagePreview(avatarUrl);
-                    setValue("avatar", avatarUrl);
-                })
-                .catch((error) => {
-                    console.error("Error uploading avatar", error);
-                    alert("Failed to upload image. Please try again.");
-                });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+                setValue("avatar", reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
 
+
     const handleImageDelete = () => {
         setImagePreview(null);
-        setValue("photo", null);
+        setValue("avatar", null);
 
     };
-
-
-
-    const onSubmit = (data) => {
-        dispatch(UPLOAD_EMPLOYEE({ ...data, avatar: imagePreview || "" }))
-        console.log(data)
-        navigate("/")
-    }
 
     return (
         <div className="modal-overlay">
@@ -100,7 +111,6 @@ function AddEmployee({ onClose }) {
                             <label>სახელი*</label>
                             <input
                                 type="text"
-                                defaultValue={identityEmployee?.name}
                                 {...register("name", {
                                     required: "გთხოვთ შეავსოთ",
                                     minLength: { value: 3, message: "მინიმუმ სამი სიმბოლო" },
@@ -119,7 +129,6 @@ function AddEmployee({ onClose }) {
                             <label>გვარი*</label>
                             <input
                                 type="text"
-                                defaultValue={identityEmployee?.surname}
                                 {...register("surname", {
                                     required: "გთხოვთ შეავსოთ",
                                     minLength: { value: 4, message: "მინიმუმ ოთხი სიმბოლო" },
@@ -142,15 +151,15 @@ function AddEmployee({ onClose }) {
                             accept="image/*"
                             className="upload_avatar"
                             onChange={handleImageUpload}
-                            {...register("avatar", {
-                                required: "გთხოვთ დაამატოთ სურათი",
-                                validate: {
-                                    fileSize: (value) => value?.[0]?.size <= 600000 || "მაქსიმუმ 600kb ზომა უნდა იყოს",
-                                    fileType: (value) => value?.[0]?.type.startsWith("image/") || "უნდა იყოს სურათის ტიპი",
-                                    fileExist: (value) => value?.length > 0 || "გთხოვთ აირჩიოთ სურათი",
+                        /*   {...register("avatar", {
+                              required: "გთხოვთ დაამატოთ სურათი",
+                              validate: {
+                                  fileSize: (value) => value?.[0]?.size <= 600000 || "მაქსიმუმ 600kb ზომა უნდა იყოს",
+                                  fileType: (value) => value?.[0]?.type.startsWith("image/") || "უნდა იყოს სურათის ტიპი",
+                                  fileExist: (value) => value?.length > 0 || "გთხოვთ აირჩიოთ სურათი",
 
-                                }
-                            })}
+                              }
+                          })} */
                         />
                         {imagePreview &&
                             <div className="image_preview_container">
@@ -166,11 +175,10 @@ function AddEmployee({ onClose }) {
                     <div className="input-field">
                         <label>დეპარტამენტი*</label>
                         <select
-                            defaultValue={identityEmployee?.department_id}
                             {...register("department_id", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })}
                         >
                             {departments.map(department => (
-                                <option key={department.id} >{department.name} </option>
+                                <option key={department.id} value={department.id} >{department.name} </option>
                             ))}
                         </select>
                         {errors.department_id && (

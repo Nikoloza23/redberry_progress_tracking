@@ -32,12 +32,12 @@ function TasksPage() {
                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
                     axios.get('https://momentum.redberryinternship.ge/api/statuses'),
                     axios.get('https://momentum.redberryinternship.ge/api/tasks', {
-                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
                     axios.get('https://momentum.redberryinternship.ge/api/departments'),
                     axios.get('https://momentum.redberryinternship.ge/api/priorities'),
                     axios.get('https://momentum.redberryinternship.ge/api/employees', {
-                        headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                     }),
                 ]);
                 setStatuses(statusesRes.data);
@@ -62,7 +62,7 @@ function TasksPage() {
                         tasks.map(async (task) => {
                             const response = await
                                 axios.get(`https://momentum.redberryinternship.ge/api/tasks/${task.id}/comments`, {
-                                    headers: { Authorization: "Bearer 9e77a3d7-86e5-4b4b-9264-fc67efbac2af" },
+                                    headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
                                 })
                             return { task_id: task.id, comments: response.data }
                         })
