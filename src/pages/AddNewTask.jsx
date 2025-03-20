@@ -13,7 +13,6 @@ import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
 import "../sass/styles/_forms_module.scss";
-import AddEmployee from "./AddEmployee";
 
 //Add your own Task
 const AddNewTask = () => {
@@ -28,8 +27,6 @@ const AddNewTask = () => {
     const [selectedPriority, setSelectedPriority] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState("");
-
-    const [showAddEmployee, setShowAddEmployee] = useState(false);
 
     const [loading, setLoading] = useState(true)
 
@@ -100,9 +97,6 @@ const AddNewTask = () => {
         }
     };
     const filteredEmployees = employees.filter(employee => {
-        console.log("Employee:", employee);
-        console.log("Employee Department ID:", employee.department.id);
-        console.log("Selected Department ID:", selectedDepartment);
         return employee.department.id === Number(selectedDepartment);
     });
 
@@ -112,8 +106,6 @@ const AddNewTask = () => {
         setValue("employee_id", employee.id, { shouldValidate: true });
         setDropMenu(false);
     };
-
-
 
     const handleAddEmployee = () => {
         setDropMenu(false);
@@ -216,13 +208,6 @@ const AddNewTask = () => {
                                         </li>
                                     </ul>
                                 }
-                                {/*  {showAddEmployee && (
-                                    <div className="modal-overlay">
-                                        <div className="modal-content">
-                                            <AddEmployee onClose={() => setShowAddEmployee(false)} />
-                                        </div>
-                                    </div>
-                                )} */}
                             </div>
                         </div>
                         <div className="form_group">

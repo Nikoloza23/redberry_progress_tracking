@@ -15,9 +15,7 @@ const SplitLayout = ({ leftContent, rightContent }) => {
             <div
                 style={{
                     width: "50%",
-                    background: "#F8F3FEA6",
                     color: "white",
-                    padding: "20px",
                 }}
             >
                 {rightContent}

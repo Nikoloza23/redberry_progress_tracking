@@ -52,7 +52,7 @@ function AddEmployee({ onClose }) {
         }
         try {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
-                headers: { Authorization: "Bearer 9e7a1de2-d66c-446c-a876-983e25d20384", "Content-Type": "multipart/form-data" },
+                headers: { Authorization: "Bearer 9e7a3e31-11fa-4205-9ae3-e6fc30f28ec9", "Content-Type": "multipart/form-data" },
             });
 
             const employeeData = response.data;

@@ -1,0 +1,50 @@
+.reply-input {
+  margin: 10px 0;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+
+  textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    resize: vertical;
+  }
+
+  .reply-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+
+    button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &.submit-reply {
+        background: #007bff;
+        color: white;
+        border: none;
+
+        &:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+        }
+      }
+
+      &.cancel-reply {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        color: #666;
+
+        &:hover {
+          background: #e9ecef;
+        }
+      }
+    }
+  }
+}

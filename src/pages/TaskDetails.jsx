@@ -19,6 +19,8 @@ function TaskDetail() {
     const { id } = useParams();
     const [task, setTask] = useState(null);
     const [comments, setComments] = useState([])
+    const [commentText, setCommentText] = useState('')
+    const [replyTo, setReplyTo] = useState(null)
     const [statuses, setStatuses] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -31,7 +33,6 @@ function TaskDetail() {
                     axiosInstance.get(`/tasks/${id}/comments`),
                     axiosInstance.get("/statuses")
                 ]);
-
                 setTask(taskResponse.data);
                 setComments(commentsResponse.data);
                 setStatuses(statusResponse.data);
@@ -46,16 +47,46 @@ function TaskDetail() {
         fetchData();
     }, [id]);
 
-    if (loading) {
-        return <BeatLoader />;
-    }
 
-    if (error) {
-        return <div className="error">{error}</div>;
-    }
+    const handleStatusChange = async (e) => {
+        const newStatusId = e.target.value;
+        try {
+            await axiosInstance.put(`/tasks/${id}`, {
+                status_id: newStatusId
+            });
 
-    if (!task) {
-        return <div>Task not found</div>;
+            setTask(prevTask => ({
+                ...prevTask,
+                status: statuses.find(status => status.id === Number(newStatusId))
+            }));
+            alert("Status updated successfully!");
+        } catch (error) {
+            console.error("Error updating status:", error);
+            alert("Failed to update status. Please try again.");
+        }
+    };
+
+
+    const handleSubmitComment = async () => {
+        if (!commentText.trim()) return;
+        try {
+            const commentData = {
+                text: commentText,
+                ...(replyTo && { parent_id: replyTo })
+            };
+            const response = await axiosInstance.post(`/tasks/${id}/comments`, commentData);
+
+            setComments(prevComments => [...prevComments, response.data]);
+
+            setCommentText('');
+
+            if (replyTo) {
+                setReplyTo(null);
+            }
+        } catch (error) {
+            console.error("Error posting comment:", error);
+            alert("Failed to post comment. Please try again.");
+        }
     }
 
     const getPriorityIcon = (priority) => {
@@ -70,6 +101,19 @@ function TaskDetail() {
                 return null;
         }
     };
+
+
+    if (loading) {
+        return <BeatLoader />;
+    }
+
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
+
+    if (!task) {
+        return <div>Task not found</div>;
+    }
 
     return (
         <SplitLayout
@@ -88,7 +132,10 @@ function TaskDetail() {
                         <div className="task_status">
                             <p><img src={piechart} alt="status" />სტატუსი </p>
                         </div>
-                        <select defaultValue={task.status.id}>
+                        <select
+                            defaultValue={task.status.id}
+                            onChange={handleStatusChange}
+                        >
                             {statuses.map(status => (
                                 <option key={status.id} value={status.id}>{status.name}</option>
                             ))}
@@ -105,23 +152,84 @@ function TaskDetail() {
             rightContent={
                 <div className="task_comments">
                     <div className="comment_input">
+                        {replyTo && (
+                            <div className="reply-indicator">
+                                პასუხი კომენტარზე #{replyTo}
+                                <button
+                                    onClick={() => {
+                                        setReplyTo(null);
+                                        setCommentText('');
+                                    }}
+                                    className="cancel-reply"
+                                >
+                                    გაუქმება
+                                </button>
+                            </div>
+                        )}
                         <textarea
-                            placeholder='დაწერე კომენტარი'
+                            placeholder={replyTo ? 'დაწერე პასუხი...' : 'დაწერე კომენტარი...'}
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
                         />
-                        <button>დააკომენტარე</button>
+                        <button
+                            onClick={handleSubmitComment}
+                            className="submit-comment"
+                            disabled={!commentText.trim()}
+                        >
+                            {replyTo ? 'პასუხის გაგზავნა' : 'კომენტარის დამატება'}
+                        </button>
                     </div>
                     <h3>კომენტარები</h3>
                     {comments.length > 0 ? (
-                        <ul>
-                            {comments.map((comment) => (
-                                <li key={comment.id}>
-                                    <div className="comment_header">
-                                        <img src={comment.author_avatar} alt={comment.author_avatar} className="comment_author_img" />
-                                        <span className="comment_author">{comment.author_nickname}</span>
-                                    </div>
-                                    <p className="comment_text">{comment.text}</p>
-                                </li>
-                            ))}
+                        <ul className="comments-list">
+                            {comments
+                                .filter(comment => !comment.parent_id)
+                                .map((comment) => (
+                                    <li key={comment.id} className="comment-item">
+                                        <div className="comment_header">
+                                            <img
+                                                src={comment.author_avatar}
+                                                alt={comment.author_nickname}
+                                                className="comment_author_img"
+                                            />
+                                            <span className="comment_author">
+                                                {comment.author_nickname}
+                                            </span>
+                                        </div>
+                                        <p className="comment_text">{comment.text}</p>
+                                        <button
+                                            onClick={() => setReplyTo(comment.id)}
+                                            className="reply-button"
+                                        >
+                                            პასუხი
+                                        </button>
+
+                                        {comments
+                                            .filter(reply => reply.parent_id === comment.id)
+                                            .map(reply => (
+                                                <div key={reply.id} className="reply-item">
+                                                    <div className="comment_header">
+                                                        <img
+                                                            src={reply.author_avatar}
+                                                            alt={reply.author_nickname}
+                                                            className="comment_author_img"
+                                                        />
+                                                        <span className="comment_author">
+                                                            {reply.author_nickname}
+                                                        </span>
+                                                    </div>
+                                                    <p className="comment_text">{reply.text}</p>
+                                                    <button
+                                                        onClick={() => setReplyTo(comment.id)}
+                                                        className="reply-button"
+                                                    >
+                                                        პასუხი
+                                                    </button>
+                                                </div>
+                                            ))
+                                        }
+                                    </li>
+                                ))}
                         </ul>
                     ) : (
                         <p>კომენტარის გარეშე</p>
