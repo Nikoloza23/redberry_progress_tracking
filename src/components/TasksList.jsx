@@ -28,7 +28,6 @@ function TasksList({ statuses, tasks, comments, getStatusColor, getStatusClass, 
         (selectedPriorities.length === 0 || selectedPriorities.includes(task.priority.name))
     );
 
-
     const handleTaskClick = (taskId) => {
         navigate(`/tasks/${taskId}`);
     }

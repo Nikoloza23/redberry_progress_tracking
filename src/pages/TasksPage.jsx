@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { BeatLoader, PacmanLoader } from "react-spinners";
-import axiosInstance from "../services/axios";
 
 import TasksList from "../components/TasksList";
 import Filters from "../components/Filters";
+
+import axiosInstance from "../services/axios";
 
 import "../sass/styles/_tasks_page.scss";
 

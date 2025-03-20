@@ -88,13 +88,13 @@ const AddNewTask = () => {
 
 
     const onSubmit = async (data) => {
+        console.log(data)
         try {
             await dispatch(UPLOAD_DATA(data));
             alert("Task added successfully!");
             navigate("/");
         } catch (error) {
             console.error("Failed to response data", error);
-            alert("Failed to response data");
         }
     }
 

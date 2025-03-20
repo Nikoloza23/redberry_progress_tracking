@@ -11,6 +11,7 @@ function AddEmployee({ onClose }) {
     const [departments, setDepartments] = useState([])
     const [loading, setLoading] = useState(true)
     const [imagePreview, setImagePreview] = useState("")
+
     const {
         handleSubmit,
         register,
@@ -25,7 +26,6 @@ function AddEmployee({ onClose }) {
             try {
                 const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
                 setDepartments(deparmentResponse.data)
-                console.log(deparmentResponse.data)
             } catch (error) {
                 console.log("error")
                 setLoading(false)
@@ -50,7 +50,7 @@ function AddEmployee({ onClose }) {
         }
         try {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
-                headers: { Authorization: "Bearer 9e79bdbc-22e6-4b15-a86b-006175282c54", "Content-Type": "multipart/form-data" },
+                headers: { Authorization: "Bearer 9e79fcff-70c8-4c04-8274-087a03316360", "Content-Type": "multipart/form-data" },
             });
 
             const employeeData = response.data;
