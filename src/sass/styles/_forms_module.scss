@@ -17,14 +17,12 @@
   .form-container {
     padding: 30px;
     width: $content;
-
-    input[type="text"] {
+    .text_type {
       width: 522px;
       height: 50px;
       font-size: 25px;
     }
-
-    input[type="date"] {
+    .date_type {
       width: 350px;
       height: 60px;
       font-size: 25px;
@@ -71,7 +69,7 @@
         }
       }
 
-      .submit-button {
+      .submit_button {
         width: 20%;
         padding: 10px;
         background: #6200ea;
@@ -109,15 +107,17 @@
     }
     .dropdown_menu {
       position: $abs;
-      width: $content;
-      border: 1px solid #ccc;
+      width: 500px;
       border-radius: 5px;
       list-style: $no;
-      padding: 0;
       margin-top: 5px;
       display: block;
       z-index: 10;
       background: $wht;
+      p {
+        font-size: 20px;
+        color: $bg-color;
+      }
       li {
         padding: 10px;
         cursor: $point;

@@ -3,7 +3,7 @@ import axios from 'axios';
 const axiosInstance = axios.create({
     baseURL: 'https://momentum.redberryinternship.ge/api',
     headers: {
-        'Authorization': 'Bearer 9e79fcff-70c8-4c04-8274-087a03316360'
+        'Authorization': 'Bearer 9e7a17c1-955b-4ee7-ac7d-d7b27cd52cae'
     }
 });
 

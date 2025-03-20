@@ -50,14 +50,13 @@ function AddEmployee({ onClose }) {
         }
         try {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
-                headers: { Authorization: "Bearer 9e79fcff-70c8-4c04-8274-087a03316360", "Content-Type": "multipart/form-data" },
+                headers: { Authorization: "Bearer 9e7a17c1-955b-4ee7-ac7d-d7b27cd52cae", "Content-Type": "multipart/form-data" },
             });
 
             const employeeData = response.data;
             localStorage.setItem('employee', JSON.stringify(employeeData));
             alert("Employee added successfully");
             onClose();
-            navigate("/");
         } catch (error) {
             console.error("Error submitting employee data", error);
             alert("Failed to add employee. Please try again.");
@@ -157,7 +156,7 @@ function AddEmployee({ onClose }) {
                     </div>
                     <div className="button-group">
                         <button className="close-button" onClick={onClose}>გაუქმება</button>
-                        <button className="submit-button">დაამატე თანამშრომელი</button>
+                        <button className="submit-button" type="submit">დაამატე თანამშრომელი</button>
                     </div>
                 </form>
             </div>

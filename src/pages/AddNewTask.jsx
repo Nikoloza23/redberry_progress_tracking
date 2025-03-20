@@ -13,6 +13,7 @@ import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
 import "../sass/styles/_forms_module.scss";
+import AddEmployee from "./AddEmployee";
 
 //Add your own Task
 const AddNewTask = () => {
@@ -25,7 +26,11 @@ const AddNewTask = () => {
     const [priorities, setPriorities] = useState([])
     const [statuses, setStatuses] = useState([])
     const [selectedPriority, setSelectedPriority] = useState([]);
-    const [selectedEmployee, setSelectedEmployee] = useState([])
+    const [selectedEmployee, setSelectedEmployee] = useState([]);
+    const [selectedDepartment, setSelectedDepartment] = useState("");
+
+    const [showAddEmployee, setShowAddEmployee] = useState(false);
+
     const [loading, setLoading] = useState(true)
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -48,6 +53,11 @@ const AddNewTask = () => {
                 const employeeResponse = await axiosInstance.get("/employees");
                 const priorityResponse = await axiosInstance.get("/priorities")
                 const statusResponse = await axiosInstance.get("/statuses")
+
+
+                console.log("Fetched Employees:", employeeResponse.data);
+                console.log("First Employee:", employeeResponse.data[0]);
+                console.log("Fetched Departments:", deparmentResponse.data);
 
                 setDepartments(deparmentResponse.data)
                 setEmployees(employeeResponse.data)
@@ -80,12 +90,33 @@ const AddNewTask = () => {
         setDropdownOpen(false);
     };
 
+    const handleDepartmentSelect = (departmentId) => {
+        setSelectedDepartment(departmentId);
+        setValue("department", departmentId);
+
+        if (selectedEmployee && selectedEmployee.department_id !== departmentId) {
+            setSelectedEmployee(null);
+            setValue("employee_id", null);
+        }
+    };
+    const filteredEmployees = employees.filter(employee => {
+        console.log("Employee:", employee);
+        console.log("Employee Department ID:", employee.department.id);
+        console.log("Selected Department ID:", selectedDepartment);
+        return employee.department.id === Number(selectedDepartment);
+    });
+
+
     const handleEmployeeSelect = (employee) => {
         setSelectedEmployee(employee);
         setValue("employee_id", employee.id, { shouldValidate: true });
         setDropMenu(false);
     };
 
+    const handleAddEmployee = () => {
+        setShowAddEmployee(true);
+        setDropMenu(false);
+    };
 
     const onSubmit = async (data) => {
         console.log(data)
@@ -107,6 +138,7 @@ const AddNewTask = () => {
                         <div className="form_group">
                             <label>სათაური*</label>
                             <input type="text"
+                                className="text_type"
                                 placeholder="შეიყვანე სათაური"
                                 defaultValue={identitySelectors?.name}
                                 {...register("name", {
@@ -121,9 +153,15 @@ const AddNewTask = () => {
                         </div>
                         <div className="form_group">
                             <label>დეპარტამენტი*</label>
-                            <select {...register("department", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })} >
+                            <select
+                                {...register("department", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })}
+                                onChange={(e) => handleDepartmentSelect(e.target.value)}
+                                value={selectedDepartment}
+                            >
                                 {departments.map(department => (
-                                    <option key={department.id} value={department.id}>{department.name}</option>
+                                    <option key={department.id} value={department.id}>
+                                        {department.name}
+                                    </option>
                                 ))}
                             </select>
                             {errors.department && <p className="error_styles">{errors.department.message}</p>}
@@ -154,17 +192,26 @@ const AddNewTask = () => {
                                     )}
                                     <span className="dropdown_arrow">▼</span>
                                 </button>
-                                {dropMenu && (
+                                {dropMenu &&
                                     <ul className="dropdown_menu">
-                                        {employees.map(employee => (
+                                        {filteredEmployees.map(employee => (
                                             <li key={employee.id} onClick={() => handleEmployeeSelect(employee)}>
                                                 <img src={employee.avatar} alt="" className="employee_avatar" />
-                                                {employee.name}<div>
-                                                    {employee.surname}
-                                                </div>
+                                                {employee.name}
+                                                <div>{employee.surname}</div>
                                             </li>
                                         ))}
+                                        <li onClick={handleAddEmployee} className="add_employee_option">
+                                            <p>+ დაამატე თანამშრომელი</p>
+                                        </li>
                                     </ul>
+                                }
+                                {showAddEmployee && (
+                                    <div className="modal-overlay">
+                                        <div className="modal-content">
+                                            <AddEmployee onClose={() => setShowAddEmployee(false)} />
+                                        </div>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -212,6 +259,7 @@ const AddNewTask = () => {
                         <div className="form_group">
                             <label>დედლაინი</label>
                             <input type="date"
+                                className="date_type"
                                 defaultValue={identitySelectors?.due_date || ""}
                                 {...register("due_date", {
                                     required: "გთხოვთ აირჩიოთ დედლაინი",
@@ -219,7 +267,7 @@ const AddNewTask = () => {
                                 })} />
                             {errors.due_date && <p className="error_styles">{errors.due_date.message}</p>}
                         </div>
-                        <button type="submit" className="submit-button">
+                        <button type="submit" className="submit_button">
                             დავალების შექმნა
                         </button>
                     </form >
