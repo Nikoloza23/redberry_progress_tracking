@@ -46,7 +46,7 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        font-size: 14px;
+        font-size: 22px;
       }
       .upload_avatar {
         width: 833px;
@@ -103,5 +103,8 @@
     background: #6200ea;
     color: $wht;
     border-radius: 5px;
+  }
+  .error_styles {
+    color: #6c757d;
   }
 }

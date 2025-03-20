@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-
 import { useDispatch, useSelector } from "react-redux";
 import { UPLOAD_DATA } from '../redux/actions'
 import { identity } from "../redux/selectors";
 
-import axios from "axios";
+import axiosInstance from '../services/axios';
 
 import group from '../assets/Group.png';
 import low from '../assets/Low.png';
@@ -42,25 +41,18 @@ const AddNewTask = () => {
         mode: "onChange"
     })
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
-                const employeeResponse = await axios.get("https://momentum.redberryinternship.ge/api/employees", {
-                    headers: {
-                        Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb"
-                    }
-                });
-                const priorityResponse = await axios.get("https://momentum.redberryinternship.ge/api/priorities")
-                const statusResponse = await axios.get("https://momentum.redberryinternship.ge/api/statuses")
+                const deparmentResponse = await axiosInstance.get("/departments");
+                const employeeResponse = await axiosInstance.get("/employees");
+                const priorityResponse = await axiosInstance.get("/priorities")
+                const statusResponse = await axiosInstance.get("/statuses")
 
                 setDepartments(deparmentResponse.data)
                 setEmployees(employeeResponse.data)
                 setPriorities(priorityResponse.data)
                 setStatuses(statusResponse.data)
-
-                console.log(employeeResponse.data)
             } catch (error) {
                 console.log("error")
                 setLoading(false)
@@ -94,12 +86,16 @@ const AddNewTask = () => {
         setDropMenu(false);
     };
 
-    const onSubmit = (data) => {
-        UPLOAD_DATA(data).then(res => {
-            console.log("Server Response", res.data)
-            alert("New Task Added Successfully!")
-            navigate("/")
-        })
+
+    const onSubmit = async (data) => {
+        try {
+            await dispatch(UPLOAD_DATA(data));
+            alert("Task added successfully!");
+            navigate("/");
+        } catch (error) {
+            console.error("Failed to response data", error);
+            alert("Failed to response data");
+        }
     }
 
     return (

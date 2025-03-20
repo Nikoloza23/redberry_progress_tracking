@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+/* import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -55,8 +55,6 @@ function AddEmployee({ onClose }) {
 
             const employeeData = response.data;
             localStorage.setItem('employee', JSON.stringify(employeeData));
-            alert("Employee added successfully");
-            onClose();
             navigate("/");
         } catch (error) {
             console.error("Error submitting employee data", error);
@@ -160,4 +158,4 @@ function AddEmployee({ onClose }) {
     )
 }
 
-export default AddEmployee
+export default AddEmployee */

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
+import axiosInstance from '../services/axios';
 
 import SplitLayout from '../components/SplitLayout';
-
-import axios from 'axios';
 
 import group from '../assets/Group.png';
 import low from '../assets/Low.png';
@@ -18,44 +17,45 @@ import '../sass/styles/_task_details.scss'
 //Details Page
 function TaskDetail() {
     const { id } = useParams();
-    const [task, setTask] = useState();
+    const [task, setTask] = useState(null);
     const [comments, setComments] = useState([])
-    const [status, setStatus] = useState([])
+    const [statuses, setStatuses] = useState([])
     const [loading, setLoading] = useState(true);
-
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchTaskDetails = async () => {
+        const fetchData = async () => {
             try {
                 const [taskResponse, commentsResponse, statusResponse] = await Promise.all([
-                    axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}`, {
-                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
-                    }),
-                    axios.get(`https://momentum.redberryinternship.ge/api/tasks/${id}/comments`, {
-                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
-                    }),
-                    axios.get("https://momentum.redberryinternship.ge/api/statuses")
+                    axiosInstance.get(`/tasks/${id}`),
+                    axiosInstance.get(`/tasks/${id}/comments`),
+                    axiosInstance.get("/statuses")
+                ]);
 
-                ])
                 setTask(taskResponse.data);
-                setComments(commentsResponse.data)
-                setStatus(statusResponse.data)
-                console.log(commentsResponse.data)
+                setComments(commentsResponse.data);
+                setStatuses(statusResponse.data);
             } catch (error) {
-                console.error('Error fetching task details', error);
+                setError("Failed to fetch task details");
+                console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchTaskDetails();
+
+        fetchData();
     }, [id]);
 
     if (loading) {
         return <BeatLoader />;
     }
 
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
+
     if (!task) {
-        return <div>No task found!</div>;
+        return <div>Task not found</div>;
     }
 
     const getPriorityIcon = (priority) => {
@@ -88,10 +88,9 @@ function TaskDetail() {
                         <div className="task_status">
                             <p><img src={piechart} alt="status" />სტატუსი </p>
                         </div>
-                        <select defaultValue={status.name}>
-                            {status.map(el => (
-                                <option key={el.id} >{el.name}</option>
-
+                        <select defaultValue={task.status.id}>
+                            {statuses.map(status => (
+                                <option key={status.id} value={status.id}>{status.name}</option>
                             ))}
                         </select>
                         <div className="task_assignee">
@@ -111,6 +110,7 @@ function TaskDetail() {
                         />
                         <button>დააკომენტარე</button>
                     </div>
+                    <h3>კომენტარები</h3>
                     {comments.length > 0 ? (
                         <ul>
                             {comments.map((comment) => (
@@ -118,7 +118,6 @@ function TaskDetail() {
                                     <div className="comment_header">
                                         <img src={comment.author_avatar} alt={comment.author_avatar} className="comment_author_img" />
                                         <span className="comment_author">{comment.author_nickname}</span>
-                                        <span className="comment_date">{new Date(comment.created_at).toLocaleDateString()}</span>
                                     </div>
                                     <p className="comment_text">{comment.text}</p>
                                 </li>
@@ -127,7 +126,6 @@ function TaskDetail() {
                     ) : (
                         <p>კომენტარის გარეშე</p>
                     )}
-
                 </div>
             }
         />

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { BeatLoader, PacmanLoader } from "react-spinners";
+import axiosInstance from "../services/axios";
 
 import TasksList from "../components/TasksList";
 import Filters from "../components/Filters";
-
-
-import axios from "axios"
 
 import "../sass/styles/_tasks_page.scss";
 
@@ -21,8 +19,8 @@ function TasksPage() {
         selectedDepartments: [],
         selectedPriorities: [],
         selectedEmployees: [],
-
     });
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,15 +28,11 @@ function TasksPage() {
         const fetchData = async () => {
             try {
                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
-                    axios.get('https://momentum.redberryinternship.ge/api/statuses'),
-                    axios.get('https://momentum.redberryinternship.ge/api/tasks', {
-                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
-                    }),
-                    axios.get('https://momentum.redberryinternship.ge/api/departments'),
-                    axios.get('https://momentum.redberryinternship.ge/api/priorities'),
-                    axios.get('https://momentum.redberryinternship.ge/api/employees', {
-                        headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
-                    }),
+                    axiosInstance.get('/statuses'),
+                    axiosInstance.get('/tasks'),
+                    axiosInstance.get('/departments'),
+                    axiosInstance.get('/priorities'),
+                    axiosInstance.get('/employees'),
                 ]);
                 setStatuses(statusesRes.data);
                 setTasks(tasksRes.data);
@@ -46,6 +40,7 @@ function TasksPage() {
                 setPriorities(prioritiesRes.data);
                 setEmployees(employeesRes.data);
             } catch (error) {
+                console.error("Error fetching data:", error);
                 setError(error.message);
             } finally {
                 setLoading(false);
@@ -60,10 +55,7 @@ function TasksPage() {
                 try {
                     const commentsData = await Promise.all(
                         tasks.map(async (task) => {
-                            const response = await
-                                axios.get(`https://momentum.redberryinternship.ge/api/tasks/${task.id}/comments`, {
-                                    headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" },
-                                })
+                            const response = await axiosInstance.get(`/tasks/${task.id}/comments`);
                             return { task_id: task.id, comments: response.data }
                         })
                     )
@@ -73,13 +65,12 @@ function TasksPage() {
                     }, {})
                     setComments(commentsMap)
                 } catch (error) {
-                    console.log("Error fetching comments", error)
+                    console.error("Error fetching comments:", error)
                 }
             }
             fetchComments()
         }
     }, [tasks])
-
 
     const getStatusColor = (statusName) => {
         const statusColors = {
@@ -91,7 +82,6 @@ function TasksPage() {
 
         return statusColors[statusName] || "#000";
     };
-
 
     const getStatusClass = (status) => {
         switch (status) {
@@ -107,7 +97,6 @@ function TasksPage() {
                 return "";
         }
     };
-
 
     if (loading) return <BeatLoader />;
     if (error) return <PacmanLoader />;

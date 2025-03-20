@@ -1,19 +1,17 @@
-import axios from 'axios'
-import * as  types from '../action-types'
+import axiosInstance from '../../services/axios'
+import * as types from '../action-types'
 
-
-export const UPLOAD_DATA = async (data) => {
+export const UPLOAD_DATA = (data) => async (dispatch) => {
     try {
-        const response = await axios.post(
-            'https://momentum.redberryinternship.ge/api/tasks',
-            data,
-            { headers: { Authorization: "Bearer 9e78808b-acff-409b-acf0-5673454faeeb" } }
-        )
+        const response = await axiosInstance.post('/tasks', data)
+        dispatch({
+            type: types.UPLOAD_DATA_TYPE,
+            payload: response.data
+        });
         return response;
-
     } catch (error) {
-        console.log("Error", error)
+        console.error("Error", error)
         alert("Failed to add task. Please try again later")
+        throw error;
     }
-
 }
