@@ -113,9 +113,16 @@ const AddNewTask = () => {
         setDropMenu(false);
     };
 
+
+
     const handleAddEmployee = () => {
-        setShowAddEmployee(true);
         setDropMenu(false);
+        navigate('/add-employee', {
+            state: {
+                from: 'addNewTask',
+                returnTo: '/newtask'
+            }
+        });
     };
 
     const onSubmit = async (data) => {
@@ -202,17 +209,20 @@ const AddNewTask = () => {
                                             </li>
                                         ))}
                                         <li onClick={handleAddEmployee} className="add_employee_option">
-                                            <p>+ დაამატე თანამშრომელი</p>
+                                            <button type="button">
+
+                                                <p>+ დაამატე თანამშრომელი</p>
+                                            </button>
                                         </li>
                                     </ul>
                                 }
-                                {showAddEmployee && (
+                                {/*  {showAddEmployee && (
                                     <div className="modal-overlay">
                                         <div className="modal-content">
                                             <AddEmployee onClose={() => setShowAddEmployee(false)} />
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </div>
                         <div className="form_group">

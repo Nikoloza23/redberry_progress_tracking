@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios"
 
@@ -8,6 +8,7 @@ import "../sass/styles/_added_employee.scss"
 
 function AddEmployee({ onClose }) {
     const navigate = useNavigate()
+    const location = useLocation()
     const [departments, setDepartments] = useState([])
     const [loading, setLoading] = useState(true)
     const [imagePreview, setImagePreview] = useState("")
@@ -36,6 +37,7 @@ function AddEmployee({ onClose }) {
 
 
 
+
     const onSubmit = async (data) => {
 
         console.log(departments);
@@ -50,18 +52,25 @@ function AddEmployee({ onClose }) {
         }
         try {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
-                headers: { Authorization: "Bearer 9e7a17c1-955b-4ee7-ac7d-d7b27cd52cae", "Content-Type": "multipart/form-data" },
+                headers: { Authorization: "Bearer 9e7a1de2-d66c-446c-a876-983e25d20384", "Content-Type": "multipart/form-data" },
             });
 
             const employeeData = response.data;
             localStorage.setItem('employee', JSON.stringify(employeeData));
             alert("Employee added successfully");
-            onClose();
+            if (location.state?.from === 'addNewTask') {
+                navigate(location.state.returnTo);
+            } else {
+                navigate("/newtask");
+            }
         } catch (error) {
             console.error("Error submitting employee data", error);
             alert("Failed to add employee. Please try again.");
         }
     };
+
+
+
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
