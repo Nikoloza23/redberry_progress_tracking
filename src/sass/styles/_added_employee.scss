@@ -49,18 +49,15 @@
         font-size: 22px;
       }
       .upload_avatar {
-        width: 833px;
-        height: 140px;
+        width: 533px;
+        height: 70px;
         margin-bottom: 10px;
       }
 
       .image_preview_container {
-        position: $abs;
-        right: 50%;
-        top: 45%;
         .uploaded_avatar {
-          width: 150px;
-          height: 100px;
+          width: 133px;
+          height: 70px;
           border-radius: 20px;
         }
       }

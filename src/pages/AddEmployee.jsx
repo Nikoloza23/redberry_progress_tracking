@@ -65,13 +65,20 @@ function AddEmployee({ onClose }) {
     };
 
     const handleImageUpload = (e) => {
-        setValue("avatar", e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+                setValue("avatar", file);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleImageDelete = () => {
         setImagePreview(null);
         setValue("avatar", null);
-
     };
 
     return (
@@ -124,18 +131,16 @@ function AddEmployee({ onClose }) {
                             accept="image/*"
                             className="upload_avatar"
                             onChange={handleImageUpload}
-
                         />
-                        {imagePreview &&
+                        {imagePreview && (
                             <div className="image_preview_container">
                                 <img src={imagePreview} alt="Uploaded" className="uploaded_avatar" />
                                 <button onClick={handleImageDelete} className="delete-button">წაშლა</button>
                             </div>
-                        }
+                        )}
                         {errors.avatar && (
                             <p className="error_styles">{errors.avatar.message}</p>
                         )}
-
                     </div>
                     <div className="input-field">
                         <label>დეპარტამენტი*</label>
