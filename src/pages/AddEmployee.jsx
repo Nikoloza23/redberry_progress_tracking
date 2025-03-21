@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BeatLoader } from "react-spinners";
 
 import axios from "axios"
 
@@ -11,7 +10,6 @@ function AddEmployee({ onClose }) {
     const navigate = useNavigate()
     const location = useLocation()
     const [departments, setDepartments] = useState([])
-    const [loading, setLoading] = useState(true)
     const [imagePreview, setImagePreview] = useState("")
 
     const {
@@ -29,7 +27,7 @@ function AddEmployee({ onClose }) {
                 const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
                 setDepartments(deparmentResponse.data)
             } catch (error) {
-                setLoading(false)
+                console.log("Response error", error)
             }
         }
         fetchDepartments()
@@ -46,7 +44,7 @@ function AddEmployee({ onClose }) {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
                 headers:
                 {
-                    Authorization: "Bearer 9e7c37bc-55b1-4468-b103-055c63e2a35e",
+                    Authorization: "Bearer 9e7c6abe-63f4-43ad-8768-60efe28d9702",
                     "Content-Type": "multipart/form-data"
                 },
             });
@@ -63,6 +61,8 @@ function AddEmployee({ onClose }) {
             alert(`Failed to add employee: ${error.response?.data?.message || error.message}`);
         }
     };
+
+
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -81,8 +81,8 @@ function AddEmployee({ onClose }) {
         setValue("avatar", null);
     };
 
-    if (loading)
-        return <BeatLoader />
+
+
     return (
         <div className="modal-overlay">
             <div className="modal-content">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BeatLoader, PacmanLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 import TasksList from "../components/TasksList";
 import Filters from "../components/Filters";
@@ -22,32 +22,54 @@ function TasksPage() {
         selectedEmployees: [],
     });
 
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
     useEffect(() => {
         const fetchData = async () => {
+            /*  try {
+                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
+                     axiosInstance.get('/statuses'),
+                     axiosInstance.get('/tasks'),
+                     axiosInstance.get('/departments'),
+                     axiosInstance.get('/priorities'),
+                     axiosInstance.get('/employees'),
+                 ]);
+                 setStatuses(statusesRes.data);
+                 setTasks(tasksRes.data);
+                 setDepartments(departmentsRes.data);
+                 setPriorities(prioritiesRes.data);
+                 setEmployees(employeesRes.data);
+             } catch (error) {
+                 console.error("Error fetching data:", error);
+                 setError(error.message);
+             } finally {
+ 
+                 setLoading(false);
+             }
+         }; */
             try {
-                const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
-                    axiosInstance.get('/statuses'),
-                    axiosInstance.get('/tasks'),
-                    axiosInstance.get('/departments'),
-                    axiosInstance.get('/priorities'),
-                    axiosInstance.get('/employees'),
-                ]);
+                const statusesRes = await axiosInstance.get('/statuses');
                 setStatuses(statusesRes.data);
+
+                const tasksRes = await axiosInstance.get('/tasks');
                 setTasks(tasksRes.data);
+
+                const departmentsRes = await axiosInstance.get('/departments');
                 setDepartments(departmentsRes.data);
+
+                const prioritiesRes = await axiosInstance.get('/priorities');
                 setPriorities(prioritiesRes.data);
+
+                const employeesRes = await axiosInstance.get('/employees');
                 setEmployees(employeesRes.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError(error.message);
             } finally {
-                setLoading(false);
+                console.log("Bad  Request");
             }
-        };
+        }
         fetchData();
     }, []);
 
@@ -100,7 +122,6 @@ function TasksPage() {
         }
     };
 
-    if (loading) return <BeatLoader />;
     if (error) return <PacmanLoader />;
 
     return (

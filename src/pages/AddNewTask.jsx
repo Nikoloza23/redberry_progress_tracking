@@ -13,7 +13,6 @@ import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
 import "../sass/styles/_forms_module.scss";
-import { BeatLoader } from "react-spinners";
 
 //Add your own Task
 const AddNewTask = () => {
@@ -28,8 +27,6 @@ const AddNewTask = () => {
     const [selectedPriority, setSelectedPriority] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState("");
-
-    const [loading, setLoading] = useState(true)
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropMenu, setDropMenu] = useState(false)
@@ -58,7 +55,6 @@ const AddNewTask = () => {
                 setStatuses(statusResponse.data)
             } catch (error) {
                 console.log("error")
-                setLoading(false)
             }
         }
         fetchData()
@@ -124,8 +120,6 @@ const AddNewTask = () => {
         }
     }
 
-    if (loading)
-        return <BeatLoader />
     return (
         <>
             <h2 className="section_title">შექმენი ახალი დავალება</h2>
