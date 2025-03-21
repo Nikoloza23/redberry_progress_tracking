@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BeatLoader, PacmanLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 import TasksList from "../components/TasksList";
 import Filters from "../components/Filters";
@@ -10,6 +11,7 @@ import "../sass/styles/_tasks_page.scss";
 
 //Main Page 
 function TasksPage() {
+    const navigate = useNavigate();
     const [statuses, setStatuses] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [departments, setDepartments] = useState([]);
@@ -24,6 +26,7 @@ function TasksPage() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
 
     useEffect(() => {
         const fetchData = async () => {

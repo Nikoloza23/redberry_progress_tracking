@@ -28,7 +28,6 @@ function AddEmployee({ onClose }) {
                 const deparmentResponse = await axios.get("https://momentum.redberryinternship.ge/api/departments");
                 setDepartments(deparmentResponse.data)
             } catch (error) {
-                console.log("error")
                 setLoading(false)
             }
         }
@@ -36,41 +35,33 @@ function AddEmployee({ onClose }) {
     }, [])
 
 
-
-
     const onSubmit = async (data) => {
-
-        console.log(departments);
         const formdata = new FormData();
         formdata.append("department_id", data.department_id)
         formdata.append("name", data.name)
         formdata.append("surname", data.surname)
         formdata.append("avatar", data.avatar)
-
-        for (let pair of formdata.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
-        }
         try {
             const response = await axios.post("https://momentum.redberryinternship.ge/api/employees", formdata, {
-                headers: { Authorization: "Bearer 9e7a3e31-11fa-4205-9ae3-e6fc30f28ec9", "Content-Type": "multipart/form-data" },
+                headers:
+                {
+                    Authorization: "Bearer 9e7c37bc-55b1-4468-b103-055c63e2a35e",
+                    "Content-Type": "multipart/form-data"
+                },
             });
-
             const employeeData = response.data;
             localStorage.setItem('employee', JSON.stringify(employeeData));
             alert("Employee added successfully");
+            onClose()
             if (location.state?.from === 'addNewTask') {
                 navigate(location.state.returnTo);
             } else {
                 navigate("/newtask");
             }
         } catch (error) {
-            console.error("Error submitting employee data", error);
-            alert("Failed to add employee. Please try again.");
+            alert(`Failed to add employee: ${error.response?.data?.message || error.message}`);
         }
     };
-
-
-
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];

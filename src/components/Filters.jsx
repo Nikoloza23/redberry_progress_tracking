@@ -7,7 +7,7 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
     const [dropDown, setDropDown] = useState(null)
     const [selectedDepartments, setSelectedDepartments] = useState([])
     const [selectedPriorities, setSelectedPriorities] = useState([])
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
 
     const dropMenu = (dropdown) => {
         setDropDown(prev => (prev === dropdown ? null : dropdown))
@@ -19,8 +19,16 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
         )
     }
 
+    const handleEmployeeSelect = (employee) => {
+        setSelectedEmployee(employee.name);
+    }
+
     const applyFilters = () => {
-        onFilterChange({ selectedDepartments, selectedPriorities, selectedEmployees });
+        onFilterChange({
+            selectedDepartments,
+            selectedPriorities,
+            selectedEmployees: selectedEmployee ? [selectedEmployee] : []
+        });
         setDropDown(null)
     }
 
@@ -73,9 +81,10 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
                         {employees.map((employee) => (
                             <label key={employee.id} className="employee_item">
                                 <input
-                                    type="checkbox"
-                                    onChange={() => toggleSelection(setSelectedEmployees, employee.name)}
-                                    checked={selectedEmployees.includes(employee.name)}
+                                    type="radio"
+                                    onChange={() => handleEmployeeSelect(employee)}
+                                    checked={selectedEmployee === employee.name}
+                                    name="employee"
                                 />
                                 <img src={employee.avatar} alt={employee.name} className="employee_avatar" />
                                 <div className="employee_info">{employee.name} {employee.surname}</div>

@@ -48,13 +48,8 @@ const AddNewTask = () => {
             try {
                 const deparmentResponse = await axiosInstance.get("/departments");
                 const employeeResponse = await axiosInstance.get("/employees");
-                const priorityResponse = await axiosInstance.get("/priorities")
-                const statusResponse = await axiosInstance.get("/statuses")
-
-
-                console.log("Fetched Employees:", employeeResponse.data);
-                console.log("First Employee:", employeeResponse.data[0]);
-                console.log("Fetched Departments:", deparmentResponse.data);
+                const priorityResponse = await axiosInstance.get("/priorities");
+                const statusResponse = await axiosInstance.get("/statuses");
 
                 setDepartments(deparmentResponse.data)
                 setEmployees(employeeResponse.data)
@@ -96,6 +91,7 @@ const AddNewTask = () => {
             setValue("employee_id", null);
         }
     };
+
     const filteredEmployees = employees.filter(employee => {
         return employee.department.id === Number(selectedDepartment);
     });
@@ -118,7 +114,6 @@ const AddNewTask = () => {
     };
 
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             await dispatch(UPLOAD_DATA(data));
             alert("Task added successfully!");
@@ -153,9 +148,12 @@ const AddNewTask = () => {
                         <div className="form_group">
                             <label>დეპარტამენტი*</label>
                             <select
-                                {...register("department", { required: "გთხოვთ აირჩიოთ დეპარტამენტი" })}
+                                {...register("department", {
+                                    required: "გთხოვთ აირჩიოთ დეპარტამენტი",
+                                    validate: value => value !== "" || "გთხოვთ აირჩიოთ დეპარტამენტი"
+                                })}
                                 onChange={(e) => handleDepartmentSelect(e.target.value)}
-                                value={selectedDepartment}
+                                defaultValue={selectedDepartment}
                             >
                                 {departments.map(department => (
                                     <option key={department.id} value={department.id}>
@@ -163,7 +161,9 @@ const AddNewTask = () => {
                                     </option>
                                 ))}
                             </select>
-                            {errors.department && <p className="error_styles">{errors.department.message}</p>}
+                            {errors.department && (
+                                <p className="error_styles">{errors.department.message}</p>
+                            )}
                         </div>
                         <div className="form_group">
                             <label>აღწერა</label>
@@ -201,14 +201,24 @@ const AddNewTask = () => {
                                             </li>
                                         ))}
                                         <li onClick={handleAddEmployee} className="add_employee_option">
-                                            <button type="button">
-
+                                            <button type="button" className="add_employee_button">
                                                 <p>+ დაამატე თანამშრომელი</p>
                                             </button>
                                         </li>
                                     </ul>
                                 }
+                                <input
+                                    type="hidden"
+                                    {...register("employee_id", {
+                                        required: "გთხოვთ აირჩიოთ პასუხისმგებელი თანამშრომელი",
+                                        validate: value => value !== null || "გთხოვთ აირჩიოთ პასუხისმგებელი თანამშრომელი"
+                                    })}
+                                    value={selectedEmployee?.id || ""}
+                                />
                             </div>
+                            {errors.employee_id && (
+                                <p className="error_styles">{errors.employee_id.message}</p>
+                            )}
                         </div>
                         <div className="form_group">
                             <label>პრიორიტეტი*</label>
@@ -234,8 +244,18 @@ const AddNewTask = () => {
                                         ))}
                                     </ul>
                                 )}
+                                <input
+                                    type="hidden"
+                                    {...register("priority_id", {
+                                        required: "გთხოვთ აირჩიოთ პრიორიტეტი",
+                                        validate: value => value !== null || "გთხოვთ აირჩიოთ პრიორიტეტი"
+                                    })}
+                                    value={selectedPriority?.id || ""}
+                                />
                             </div>
-                            {errors.priority_id && <p className="error_styles">{errors.priority_id.message}</p>}
+                            {errors.priority_id && (
+                                <p className="error_styles">{errors.priority_id.message}</p>
+                            )}
                         </div>
                         <div className="form_group">
                             <label>სტატუსი*</label>

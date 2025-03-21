@@ -25,36 +25,12 @@ function TaskDetail() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [taskResponse, commentsResponse, statusResponse] = await Promise.all([
-                    axiosInstance.get(`/tasks/${id}`),
-                    axiosInstance.get(`/tasks/${id}/comments`),
-                    axiosInstance.get("/statuses")
-                ]);
-                setTask(taskResponse.data);
-                setComments(commentsResponse.data);
-                setStatuses(statusResponse.data);
-            } catch (error) {
-                setError("Failed to fetch task details");
-                console.error("Error fetching data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [id]);
-
-
     const handleStatusChange = async (e) => {
         const newStatusId = e.target.value;
         try {
             await axiosInstance.put(`/tasks/${id}`, {
                 status_id: newStatusId
             });
-
             setTask(prevTask => ({
                 ...prevTask,
                 status: statuses.find(status => status.id === Number(newStatusId))
@@ -65,7 +41,6 @@ function TaskDetail() {
             alert("Failed to update status. Please try again.");
         }
     };
-
 
     const handleSubmitComment = async () => {
         if (!commentText.trim()) return;
@@ -84,10 +59,29 @@ function TaskDetail() {
                 setReplyTo(null);
             }
         } catch (error) {
-            console.error("Error posting comment:", error);
             alert("Failed to post comment. Please try again.");
         }
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [taskResponse, commentsResponse, statusResponse] = await Promise.all([
+                    axiosInstance.get(`/tasks/${id}`),
+                    axiosInstance.get(`/tasks/${id}/comments`),
+                    axiosInstance.get("/statuses")
+                ]);
+                setTask(taskResponse.data);
+                setComments(commentsResponse.data);
+                setStatuses(statusResponse.data);
+            } catch (error) {
+                setError("Failed to fetch task details");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [id]);
 
     const getPriorityIcon = (priority) => {
         switch (priority) {
@@ -101,7 +95,6 @@ function TaskDetail() {
                 return null;
         }
     };
-
 
     if (loading) {
         return <BeatLoader />;

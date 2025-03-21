@@ -2,7 +2,7 @@
 
 //Task Main Container
 .tasks_container {
-  margin: 20px 50px;
+  margin: 20px;
   h3 {
     font-size: 34px;
     font-weight: 600;
@@ -72,6 +72,20 @@
       height: 50px;
       margin-top: 20px;
       font-size: 50px;
+    }
+  }
+  .add_employee_button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+
+    &:hover {
+      background-color: #0056b3;
     }
   }
 }
