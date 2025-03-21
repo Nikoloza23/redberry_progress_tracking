@@ -20,14 +20,14 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
     }
 
     const handleEmployeeSelect = (employee) => {
-        setSelectedEmployee(employee.name);
+        setSelectedEmployee(employee);
     }
 
     const applyFilters = () => {
         onFilterChange({
             selectedDepartments,
             selectedPriorities,
-            selectedEmployees: selectedEmployee ? [selectedEmployee] : []
+            selectedEmployees: selectedEmployee ? [selectedEmployee.id] : []
         });
         setDropDown(null)
     }
@@ -83,7 +83,7 @@ function Filters({ departments, priorities, employees, onFilterChange }) {
                                 <input
                                     type="radio"
                                     onChange={() => handleEmployeeSelect(employee)}
-                                    checked={selectedEmployee === employee.name}
+                                    checked={selectedEmployee?.id === employee.id}
                                     name="employee"
                                 />
                                 <img src={employee.avatar} alt={employee.name} className="employee_avatar" />

@@ -27,27 +27,6 @@ function TasksPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            /*  try {
-                 const [statusesRes, tasksRes, departmentsRes, prioritiesRes, employeesRes] = await Promise.all([
-                     axiosInstance.get('/statuses'),
-                     axiosInstance.get('/tasks'),
-                     axiosInstance.get('/departments'),
-                     axiosInstance.get('/priorities'),
-                     axiosInstance.get('/employees'),
-                 ]);
-                 setStatuses(statusesRes.data);
-                 setTasks(tasksRes.data);
-                 setDepartments(departmentsRes.data);
-                 setPriorities(prioritiesRes.data);
-                 setEmployees(employeesRes.data);
-             } catch (error) {
-                 console.error("Error fetching data:", error);
-                 setError(error.message);
-             } finally {
- 
-                 setLoading(false);
-             }
-         }; */
             try {
                 const statusesRes = await axiosInstance.get('/statuses');
                 setStatuses(statusesRes.data);

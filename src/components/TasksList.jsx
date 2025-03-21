@@ -7,7 +7,7 @@ import vector from '../assets/Vector.png';
 import "../sass/styles/_task_list.scss";
 
 //Task List Page 
-function TasksList({ statuses, tasks, comments, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities }) {
+function TasksList({ statuses, tasks, comments, getStatusColor, getStatusClass, selectedDepartments, selectedPriorities, selectedEmployees }) {
     const navigate = useNavigate()
 
     const getPriorityIcon = (priority) => {
@@ -25,7 +25,8 @@ function TasksList({ statuses, tasks, comments, getStatusColor, getStatusClass, 
 
     const filteredTasks = tasks.filter(task =>
         (selectedDepartments.length === 0 || selectedDepartments.includes(task.department.name)) &&
-        (selectedPriorities.length === 0 || selectedPriorities.includes(task.priority.name))
+        (selectedPriorities.length === 0 || selectedPriorities.includes(task.priority.name)) &&
+        (selectedEmployees.length === 0 || selectedEmployees.includes(task.employee.id))
     );
 
     const handleTaskClick = (taskId) => {
