@@ -13,6 +13,7 @@ import low from '../assets/Low.png';
 import vector from '../assets/Vector.png';
 
 import "../sass/styles/_forms_module.scss";
+import { BeatLoader } from "react-spinners";
 
 //Add your own Task
 const AddNewTask = () => {
@@ -123,6 +124,8 @@ const AddNewTask = () => {
         }
     }
 
+    if (loading)
+        return <BeatLoader />
     return (
         <>
             <h2 className="section_title">შექმენი ახალი დავალება</h2>

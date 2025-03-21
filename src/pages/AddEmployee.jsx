@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 
 import axios from "axios"
 
@@ -80,6 +81,8 @@ function AddEmployee({ onClose }) {
         setValue("avatar", null);
     };
 
+    if (loading)
+        return <BeatLoader />
     return (
         <div className="modal-overlay">
             <div className="modal-content">
