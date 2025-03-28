@@ -111,6 +111,7 @@ const AddNewTask = () => {
     };
 
     const onSubmit = async (data) => {
+
         try {
             await dispatch(UPLOAD_DATA(data));
             alert("Task added successfully!");

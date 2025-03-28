@@ -1,1 +1,1 @@
-export const identity = store => store.identity
+export const identity = store => store.tasks[0]

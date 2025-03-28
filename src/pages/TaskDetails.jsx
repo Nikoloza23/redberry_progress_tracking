@@ -52,7 +52,6 @@ function TaskDetail() {
             const response = await axiosInstance.post(`/tasks/${id}/comments`, commentData);
 
             setComments(prevComments => [...prevComments, response.data]);
-
             setCommentText('');
 
             if (replyTo) {
